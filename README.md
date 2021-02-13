@@ -1,2 +1,2 @@
 # Car-Lighting-System
-![Screenshot](Screenshot 2021-02-13 235203.png)
+![Screenshot](https://github.com/Ahmed-Khalil-0/Car-Lighting-System/blob/main/Screenshot%202021-02-13%20235203.png)
