@@ -1,0 +1,75 @@
+# depslib dependency file v1.0
+1572131390 source:e:\c_projects\pic\light_sys\adc.c
+	"ADC.h"
+	"GPIO.h"
+
+1572131350 e:\c_projects\pic\light_sys\adc.h
+	<pic16f877a.h>
+	"OS.h"
+
+1571684671 e:\c_projects\pic\light_sys\gpio.h
+	<pic16f877a.h>
+
+1572354931 e:\c_projects\pic\light_sys\os.h
+
+1572213488 e:\c_projects\pic\light_sys\timer.h
+	<pic16f877a.h>
+
+1572207036 source:e:\c_projects\pic\light_sys\main.c
+	<stdio.h>
+	<stdlib.h>
+	<pic16f877a.h>
+	"FrontLight.h"
+	"BlinkerLight.h"
+	"WelcomeLight.h"
+	"DRL.h"
+	"OS.h"
+
+1572179452 e:\c_projects\pic\light_sys\frontlight.h
+
+1572354552 source:e:\c_projects\pic\light_sys\os.c
+	"OS.h"
+	"FrontLight.h"
+	"BlinkerLight.h"
+	"WelcomeLight.h"
+	"DRL.h"
+	"timer.h"
+
+1572178578 source:e:\c_projects\pic\light_sys\frontlight.c
+	"FrontLight.h"
+	"GPIO.h"
+	"ADC.h"
+	"OS.h"
+
+1572173773 e:\c_projects\pic\light_sys\blinkerlight.h
+
+1572129806 source:e:\c_projects\pic\light_sys\sw.c
+	"SW.h"
+	"GPIO.h"
+	"OS.h"
+
+1572124293 e:\c_projects\pic\light_sys\sw.h
+
+1572179387 source:e:\c_projects\pic\light_sys\blinkerlight.c
+	"ADC.h"
+	"BlinkerLight.h"
+	"SW.h"
+	"GPIO.h"
+
+1572179713 e:\c_projects\pic\light_sys\drl.h
+
+1572180384 source:e:\c_projects\pic\light_sys\drl.c
+	"DRL.h"
+	"OS.h"
+	"ADC.h"
+	"GPIO.h"
+	"FrontLight.h"
+
+1572354619 e:\c_projects\pic\light_sys\welcomelight.h
+	"OS.h"
+
+1572354537 source:e:\c_projects\pic\light_sys\welcomelight.c
+	"GPIO.h"
+	"OS.h"
+	"WelcomeLight.h"
+

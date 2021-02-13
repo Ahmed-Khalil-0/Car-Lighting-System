@@ -1,0 +1,2820 @@
+gpasm-1.4.0 #1106 (Oct  6 2014) obj\Debug\Bli   10-29-2019  15:21:38        PAGE  1
+
+
+LOC    OBJECT CODE    LINE  SOURCE TEXT
+  VALUE
+
+                      00001 ;--------------------------------------------------------
+                      00002 ; File Created by SDCC : free open source ANSI-C Compiler
+                      00003 ; Version 3.5.0 #9253 (Jun 20 2015) (MINGW32)
+                      00004 ; This file was generated Tue Oct 29 15:21:38 2019
+                      00005 ;--------------------------------------------------------
+                      00006 ; PIC port for the 14-bit core
+                      00007 ;--------------------------------------------------------
+                      00008         .file   "BlinkerLight.c"
+                      00009         list    p=16f877a
+                      00010         radix dec
+                      00011         include "p16f877a.inc"
+                      00001         LIST
+                      00002 
+                      00003 ;==========================================================================
+                      00004 ; Build date : Aug 07 2014
+                      00005 ;  MPASM PIC16F877A processor include
+                      00006 ; 
+                      00007 ;  (c) Copyright 1999-2014 Microchip Technology, All rights reserved
+                      00008 ;==========================================================================
+                      00009 
+                      00567         LIST
+                      00012 ;--------------------------------------------------------
+                      00013 ; external declarations
+                      00014 ;--------------------------------------------------------
+  0000                00015         extern  _OS_Init
+  0000                00016         extern  _OS_Start
+  0000                00017         extern  _OS_Update
+  0000                00018         extern  _ADC_Init
+  0000                00019         extern  _ADC_Update
+  0000                00020         extern  _ADC_Get
+  0000                00021         extern  _SW_Init
+  0000                00022         extern  _SW_Update
+  0000                00023         extern  _get_SW_State
+  0000                00024         extern  _STATUSbits
+  0000                00025         extern  _PORTAbits
+  0000                00026         extern  _PORTBbits
+  0000                00027         extern  _PORTCbits
+  0000                00028         extern  _PORTDbits
+  0000                00029         extern  _PORTEbits
+  0000                00030         extern  _INTCONbits
+  0000                00031         extern  _PIR1bits
+  0000                00032         extern  _PIR2bits
+  0000                00033         extern  _T1CONbits
+  0000                00034         extern  _T2CONbits
+  0000                00035         extern  _SSPCONbits
+  0000                00036         extern  _CCP1CONbits
+  0000                00037         extern  _RCSTAbits
+  0000                00038         extern  _CCP2CONbits
+  0000                00039         extern  _ADCON0bits
+  0000                00040         extern  _OPTION_REGbits
+  0000                00041         extern  _TRISAbits
+  0000                00042         extern  _TRISBbits
+  0000                00043         extern  _TRISCbits
+gpasm-1.4.0 #1106 (Oct  6 2014) obj\Debug\Bli   10-29-2019  15:21:38        PAGE  2
+
+
+LOC    OBJECT CODE    LINE  SOURCE TEXT
+  VALUE
+
+  0000                00044         extern  _TRISDbits
+  0000                00045         extern  _TRISEbits
+  0000                00046         extern  _PIE1bits
+  0000                00047         extern  _PIE2bits
+  0000                00048         extern  _PCONbits
+  0000                00049         extern  _SSPCON2bits
+  0000                00050         extern  _SSPSTATbits
+  0000                00051         extern  _TXSTAbits
+  0000                00052         extern  _CMCONbits
+  0000                00053         extern  _CVRCONbits
+  0000                00054         extern  _ADCON1bits
+  0000                00055         extern  _EECON1bits
+  0000                00056         extern  _INDF
+  0000                00057         extern  _TMR0
+  0000                00058         extern  _PCL
+  0000                00059         extern  _STATUS
+  0000                00060         extern  _FSR
+  0000                00061         extern  _PORTA
+  0000                00062         extern  _PORTB
+  0000                00063         extern  _PORTC
+  0000                00064         extern  _PORTD
+  0000                00065         extern  _PORTE
+  0000                00066         extern  _PCLATH
+  0000                00067         extern  _INTCON
+  0000                00068         extern  _PIR1
+  0000                00069         extern  _PIR2
+  0000                00070         extern  _TMR1
+  0000                00071         extern  _TMR1L
+  0000                00072         extern  _TMR1H
+  0000                00073         extern  _T1CON
+  0000                00074         extern  _TMR2
+  0000                00075         extern  _T2CON
+  0000                00076         extern  _SSPBUF
+  0000                00077         extern  _SSPCON
+  0000                00078         extern  _CCPR1
+  0000                00079         extern  _CCPR1L
+  0000                00080         extern  _CCPR1H
+  0000                00081         extern  _CCP1CON
+  0000                00082         extern  _RCSTA
+  0000                00083         extern  _TXREG
+  0000                00084         extern  _RCREG
+  0000                00085         extern  _CCPR2
+  0000                00086         extern  _CCPR2L
+  0000                00087         extern  _CCPR2H
+  0000                00088         extern  _CCP2CON
+  0000                00089         extern  _ADRESH
+  0000                00090         extern  _ADCON0
+  0000                00091         extern  _OPTION_REG
+  0000                00092         extern  _TRISA
+  0000                00093         extern  _TRISB
+  0000                00094         extern  _TRISC
+  0000                00095         extern  _TRISD
+  0000                00096         extern  _TRISE
+gpasm-1.4.0 #1106 (Oct  6 2014) obj\Debug\Bli   10-29-2019  15:21:38        PAGE  3
+
+
+LOC    OBJECT CODE    LINE  SOURCE TEXT
+  VALUE
+
+  0000                00097         extern  _PIE1
+  0000                00098         extern  _PIE2
+  0000                00099         extern  _PCON
+  0000                00100         extern  _SSPCON2
+  0000                00101         extern  _PR2
+  0000                00102         extern  _SSPADD
+  0000                00103         extern  _SSPSTAT
+  0000                00104         extern  _TXSTA
+  0000                00105         extern  _SPBRG
+  0000                00106         extern  _CMCON
+  0000                00107         extern  _CVRCON
+  0000                00108         extern  _ADRESL
+  0000                00109         extern  _ADCON1
+  0000                00110         extern  _EEDATA
+  0000                00111         extern  _EEADR
+  0000                00112         extern  _EEDATH
+  0000                00113         extern  _EEADRH
+  0000                00114         extern  _EECON1
+  0000                00115         extern  _EECON2
+                      00116 
+  0000                00117         extern PSAVE
+  0000                00118         extern SSAVE
+  0000                00119         extern WSAVE
+  0000                00120         extern STK12
+  0000                00121         extern STK11
+  0000                00122         extern STK10
+  0000                00123         extern STK09
+  0000                00124         extern STK08
+  0000                00125         extern STK07
+  0000                00126         extern STK06
+  0000                00127         extern STK05
+  0000                00128         extern STK04
+  0000                00129         extern STK03
+  0000                00130         extern STK02
+  0000                00131         extern STK01
+  0000                00132         extern STK00
+                      00133 ;--------------------------------------------------------
+                      00134 ; global declarations
+                      00135 ;--------------------------------------------------------
+  0000                00136         global  _Blinker_Light_Update
+  0000                00137         global  _Blinker_Light_Init
+  0000                00138         global  _sw_output
+  0000                00139         global  _sw_previous
+  0000                00140         global  _digital_Reading
+                      00141 
+                      00142 ;--------------------------------------------------------
+                      00143 ; global definitions
+                      00144 ;--------------------------------------------------------
+                      00145 UD_BlinkerLight_0       udata
+0000                  00146 _sw_output      res     1
+                      00147 
+                      00148 ;--------------------------------------------------------
+                      00149 ; absolute symbol definitions
+gpasm-1.4.0 #1106 (Oct  6 2014) obj\Debug\Bli   10-29-2019  15:21:38        PAGE  4
+
+
+LOC    OBJECT CODE    LINE  SOURCE TEXT
+  VALUE
+
+                      00150 ;--------------------------------------------------------
+                      00151 ;--------------------------------------------------------
+                      00152 ; compiler-defined variables
+                      00153 ;--------------------------------------------------------
+                      00154 UDL_BlinkerLight_0      udata
+0000                  00155 r0x1010 res     1
+0001                  00156 r0x100E res     1
+0002                  00157 r0x100D res     1
+0003                  00158 r0x100F res     1
+0004                  00159 r0x1008 res     1
+0005                  00160 r0x1009 res     1
+0006                  00161 r0x100A res     1
+0007                  00162 r0x100B res     1
+0008                  00163 r0x100C res     1
+0009                  00164 _Blinker_Light_Update_current_Time_1_16 res     1
+000A                  00165 _Light_Toggle_toggling_Time_1_27        res     2
+                      00166 ;--------------------------------------------------------
+                      00167 ; initialized data
+                      00168 ;--------------------------------------------------------
+                      00169 
+                      00170 ID_BlinkerLight_0       idata
+0000                  00171 _sw_previous
+0000   00             00172         db      0x00
+                      00173 
+                      00174 
+                      00175 ID_BlinkerLight_1       idata
+0000                  00176 _current_SW_State
+0000   00             00177         db      0x00
+                      00178 
+                      00179 
+                      00180 ID_BlinkerLight_2       idata
+0000                  00181 _digital_Reading
+0000   00 00          00182         db      0x00, 0x00
+                      00183 
+                      00184 ;--------------------------------------------------------
+                      00185 ; overlayable items in internal ram 
+                      00186 ;--------------------------------------------------------
+                      00187 ;       udata_ovr
+                      00188 ;--------------------------------------------------------
+                      00189 ; code
+                      00190 ;--------------------------------------------------------
+                      00191 code_BlinkerLight       code
+                      00192 ;***
+                      00193 ;  pBlock Stats: dbName = C
+                      00194 ;***
+                      00195 ;entry:  _Light_Toggle  ;Function start
+                      00196 ; 2 exit points
+                      00197 ;has an exit
+                      00198 ;6 compiler assigned registers:
+                      00199 ;   r0x1008
+                      00200 ;   STK00
+                      00201 ;   r0x1009
+                      00202 ;   r0x100A
+gpasm-1.4.0 #1106 (Oct  6 2014) obj\Debug\Bli   10-29-2019  15:21:38        PAGE  5
+
+
+LOC    OBJECT CODE    LINE  SOURCE TEXT
+  VALUE
+
+                      00203 ;   r0x100B
+                      00204 ;   r0x100C
+                      00205 ;; Starting pCode block
+                      00206 ;;; /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:2316:resultRemat *{*
+                      00207 ;;; /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:2760:genLabel *{*
+                      00208 ;; ***  genLabel  2763
+                      00209 ;;; /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:2316:resultRemat *{*
+                      00210 ;;; /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:2340:genFunction *{*
+                      00211 ;; ***  genFunction  2342 curr label offset=8previous max_key=53 
+0000                  00212 _Light_Toggle   ;Function start
+                      00213 ; 2 exit points
+                      00214 ;;; /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:2316:resultRemat *{*
+                      00215 ;;; /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:7358:genReceive *{*
+                      00216 ;; ***  genReceive  7359
+                      00217 ;;      694 register type nRegs=1
+                      00218 ;;; /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:1907:assignResultValue *{*
+                      00219 ;; ***  assignResultValue  1909
+                      00220 ;;      line = 1911 result -=-, size=0, left AOP_REG=r0x1052, size=1, right -=-, size=0
+                      00221 ;; >>> /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:1393:movwf
+                      00222 ;;      1109 rIdx = r0x1052 
+                      00223         .line   84; "BlinkerLight.c"    static void Light_Toggle(tByte left, tByte right){
+0000   ???? ????      00224         BANKSEL r0x1008
+0002   00??           00225         MOVWF   r0x1008
+                      00226 ;;; /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:2316:resultRemat *{*
+                      00227 ;;; /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:7358:genReceive *{*
+                      00228 ;; ***  genReceive  7359
+                      00229 ;;      694 register type nRegs=1
+                      00230 ;;; /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:1907:assignResultValue *{*
+                      00231 ;; ***  assignResultValue  1909
+                      00232 ;;      line = 1911 result -=-, size=0, left AOP_REG=r0x1053, size=1, right -=-, size=0
+                      00233 ;; >>> /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:1423:get_returnvalue
+                      00234 ;; ***  popRegFromIdx,1042  , rIdx=0x7f
+0003   08??           00235         MOVF    STK00,W
+                      00236 ;; >>> /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:1393:movwf
+                      00237 ;;      1109 rIdx = r0x1053 
+0004   00??           00238         MOVWF   r0x1009
+                      00239 ;;; /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:2316:resultRemat *{*
+                      00240 ;; ***  genPlus  611
+                      00241 ;;; /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/genarith.c:612:genPlus *{*
+                      00242 ;; ***  aopForSym 315
+                      00243 ;;      327 sym->rname = _Light_Toggle_toggling_Time_1_27, size = 2
+                      00244 ;;      575
+                      00245 ;;      line = 618 result AOP_DIR=_Light_Toggle_toggling_Time_1_27, size=2, left AOP_DIR=_Light_Toggle_t
+                            oggling_Time_1_27, size=2, right AOP_LIT=0x05, size=2
+                      00246 ;;; /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/genarith.c:142:genPlusIncr *{*
+                      00247 ;; ***  genPlusIncr  144
+                      00248 ;;      result AOP_DIR, left AOP_DIR, right AOP_LIT
+                      00249 ;;      genPlusIncr  156
+                      00250 ;;      adding lit to something. size 2
+                      00251 ;;; /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/genarith.c:269:genAddLit *{*
+                      00252 ;; ***  genAddLit  270
+                      00253 ;; hi = 0       genAddLit  328
+                      00254 ;; >>> /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/genarith.c:344:genAddLit
+gpasm-1.4.0 #1106 (Oct  6 2014) obj\Debug\Bli   10-29-2019  15:21:38        PAGE  6
+
+
+LOC    OBJECT CODE    LINE  SOURCE TEXT
+  VALUE
+
+                      00255         .line   87; "BlinkerLight.c"    toggling_Time += OS_TICK;
+0005   3005           00256         MOVLW   0x05
+                      00257 ;; >>> /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/genarith.c:345:genAddLit
+                      00258 ;;      1009
+                      00259 ;;      1028  _Light_Toggle_toggling_Time_1_27   offset=0
+0006   ???? ????      00260         BANKSEL _Light_Toggle_toggling_Time_1_27
+0008   07??           00261         ADDWF   _Light_Toggle_toggling_Time_1_27,F
+                      00262 ;; >>> /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/genarith.c:346:genAddLit
+0009   1803           00263         BTFSC   STATUS,0
+                      00264 ;; >>> /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/genarith.c:347:genAddLit
+                      00265 ;;      1009
+                      00266 ;;      1028  _Light_Toggle_toggling_Time_1_27   offset=1
+000A   0A??           00267         INCF    (_Light_Toggle_toggling_Time_1_27 + 1),F
+                      00268 ;; ***  addSign  861
+                      00269 ;;; /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/genarith.c:862:addSign *{*
+                      00270 ;;; /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:2316:resultRemat *{*
+                      00271 ;;; /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:3547:genCmpGt *{*
+                      00272 ;; ***  genCmpGt  3548
+                      00273 ;; ***  aopForSym 315
+                      00274 ;;      327 sym->rname = _Light_Toggle_toggling_Time_1_27, size = 2
+                      00275 ;;; /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:3294:genCmp *{*
+                      00276 ;;swapping arguments (AOP_TYPEs 1/3)
+                      00277 ;;unsigned compare: left >= lit(0x33=51), size=2
+                      00278 ;; >>> /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:3265:pic14_mov2w_regOrLit
+                      00279         .line   88; "BlinkerLight.c"    if(toggling_Time > TOGGLE_LIGHT_PRIODE){
+000B   3000           00280         MOVLW   0x00
+                      00281 ;; >>> /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:3432:genCmp
+                      00282 ;;      1009
+                      00283 ;;      1028  _Light_Toggle_toggling_Time_1_27   offset=1
+000C   02??           00284         SUBWF   (_Light_Toggle_toggling_Time_1_27 + 1),W
+                      00285 ;; >>> /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:3477:genCmp
+000D   1D03           00286         BTFSS   STATUS,2
+                      00287 ;; >>> /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:3478:genCmp
+                      00288 ;; ***  popGetLabel  key=55, label offset 65
+000E   2???           00289         GOTO    _00220_DS_
+                      00290 ;; >>> /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:3265:pic14_mov2w_regOrLit
+000F   3033           00291         MOVLW   0x33
+                      00292 ;; >>> /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:3480:genCmp
+                      00293 ;;      1009
+                      00294 ;;      1028  _Light_Toggle_toggling_Time_1_27   offset=0
+0010   02??           00295         SUBWF   _Light_Toggle_toggling_Time_1_27,W
+                      00296 ;;; /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:3237:genSkipc *{*
+                      00297 ;; >>> /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:3244:genSkipc
+0011                  00298 _00220_DS_
+0011   1C03           00299         BTFSS   STATUS,0
+                      00300 ;; >>> /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:3246:genSkipc
+                      00301 ;; ***  popGetLabel  key=23, label offset 65
+0012   2???           00302         GOTO    _00188_DS_
+                      00303 ;;genSkipc:3247: created from rifx:027A5DF4
+                      00304 ;;; /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:2316:resultRemat *{*
+                      00305 ;;; /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:2316:resultRemat *{*
+                      00306 ;;; /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:6927:genAssign *{*
+                      00307 ;; ***  genAssign  6928
+gpasm-1.4.0 #1106 (Oct  6 2014) obj\Debug\Bli   10-29-2019  15:21:38        PAGE  7
+
+
+LOC    OBJECT CODE    LINE  SOURCE TEXT
+  VALUE
+
+                      00308 ;; ***  aopForSym 315
+                      00309 ;;      327 sym->rname = _Light_Toggle_toggling_Time_1_27, size = 2
+                      00310 ;;      line = 6937 result AOP_DIR=_Light_Toggle_toggling_Time_1_27, size=2, left -=-, size=0, right AOP
+                            _LIT=0x00, size=2
+                      00311 ;; ***  genAssign  7023
+                      00312 ;; >>> /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:7035:genAssign
+                      00313 ;;      1009
+                      00314 ;;      1028  _Light_Toggle_toggling_Time_1_27   offset=0
+                      00315         .line   89; "BlinkerLight.c"    toggling_Time = 0;
+0013   ???? ????      00316         BANKSEL _Light_Toggle_toggling_Time_1_27
+0015   01??           00317         CLRF    _Light_Toggle_toggling_Time_1_27
+                      00318 ;; ***  genAssign  7023
+                      00319 ;; >>> /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:7035:genAssign
+                      00320 ;;      1009
+                      00321 ;;      1028  _Light_Toggle_toggling_Time_1_27   offset=1
+0016   01??           00322         CLRF    (_Light_Toggle_toggling_Time_1_27 + 1)
+                      00323 ;;; /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:2316:resultRemat *{*
+                      00324 ;;; /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:3619:genCmpEq *{*
+                      00325 ;; ***  genCmpEq  3620
+                      00326 ;; ifx is null
+                      00327 ;;      694 register type nRegs=1
+                      00328 ;;      694 register type nRegs=1
+                      00329 ;;      line = 3631 result AOP_REG=r0x1054, size=1, left AOP_REG=r0x1052, size=1, right AOP_LIT=0x01, si
+                            ze=1
+                      00330 ;; >>> /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:3657:genCmpEq
+                      00331 ;;      1109 rIdx = r0x1054 
+                      00332         .line   90; "BlinkerLight.c"    if((left == LEFT_ON) && (right == RIGHT_ON)){
+0017   ???? ????      00333         BANKSEL r0x100A
+0019   01??           00334         CLRF    r0x100A
+                      00335 ;; ***  mov2w  1381  offset=0
+                      00336 ;; >>> /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:1386:mov2w
+                      00337 ;;      1109 rIdx = r0x1052 
+001A   08??           00338         MOVF    r0x1008,W
+                      00339 ;; >>> /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:3685:genCmpEq
+001B   3A01           00340         XORLW   0x01
+001C   1903           00341         BTFSC   STATUS,2
+001D   0A??           00342         INCF    r0x100A,F
+001E   08??           00343         MOVF    r0x100A,W
+001F   1903           00344         BTFSC   STATUS,2
+                      00345 ;; >>> /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:6814:genIfx
+                      00346 ;; ***  popGetLabel  key=18, label offset 65
+0020   2???           00347         GOTO    _00183_DS_
+                      00348 ;;; /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:2316:resultRemat *{*
+                      00349 ;;; /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:3619:genCmpEq *{*
+                      00350 ;; ***  genCmpEq  3620
+                      00351 ;; ifx is non-null
+                      00352 ;;      694 register type nRegs=1
+                      00353 ;;      line = 3631 result AOP_CRY=0x00, size=0, left AOP_REG=r0x1053, size=1, right AOP_LIT=0x01, size=
+                            1
+                      00354 ;; ***  mov2w  1381  offset=0
+                      00355 ;; >>> /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:1386:mov2w
+                      00356 ;;      1109 rIdx = r0x1053 
+0021   08??           00357         MOVF    r0x1009,W
+gpasm-1.4.0 #1106 (Oct  6 2014) obj\Debug\Bli   10-29-2019  15:21:38        PAGE  8
+
+
+LOC    OBJECT CODE    LINE  SOURCE TEXT
+  VALUE
+
+                      00358 ;; >>> /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:3685:genCmpEq
+0022   3A01           00359         XORLW   0x01
+                      00360 ;; >>> /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:3687:genCmpEq
+0023   1D03           00361         BTFSS   STATUS,2
+                      00362 ;; >>> /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:3690:genCmpEq
+                      00363 ;; ***  popGetLabel  key=18, label offset 65
+0024   2???           00364         GOTO    _00183_DS_
+                      00365 ;;; /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:2316:resultRemat *{*
+                      00366 ;;; /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:2316:resultRemat *{*
+                      00367 ;;; /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:3919:genAnd *{*
+                      00368 ;; ***  genAnd  3920
+                      00369 ;; ***  aopForSym 315
+                      00370 ;;      327 sym->rname = _PORTB, size = 1
+                      00371 ;;      694 register type nRegs=1
+                      00372 ;;      line = 3955 result AOP_REG=r0x1055, size=1, left AOP_DIR=_PORTB, size=1, right AOP_LIT=0x04, siz
+                            e=1
+                      00373 ;; >>> /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:4190:genAnd
+                      00374         .line   91; "BlinkerLight.c"    if(right == GPIO_ReadPortPin(GPIO_PORTB_DATA, GPIO_PIN_2)){
+0025   3004           00375         MOVLW   0x04
+                      00376 ;; >>> /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:4191:genAnd
+                      00377 ;;      1009
+                      00378 ;;      1028  _PORTB   offset=0
+0026   ???? ????      00379         BANKSEL _PORTB
+0028   05??           00380         ANDWF   _PORTB,W
+                      00381 ;; >>> /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:4192:genAnd
+                      00382 ;;      1109 rIdx = r0x1055 
+0029   ???? ????      00383         BANKSEL r0x100B
+002B   00??           00384         MOVWF   r0x100B
+                      00385 ;;; /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:2316:resultRemat *{*
+                      00386 ;;; /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:5418:genGenericShift *{*
+                      00387 ;; ***  genGenericShift  5421
+                      00388 ;;      694 register type nRegs=1
+                      00389 ;;      694 register type nRegs=1
+                      00390 ;;shiftRight_Left2ResultLit:5273: shCount=1, size=1, sign=0, same=0, offr=0
+                      00391 ;; >>> /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:5283:shiftRight_Left2ResultLit
+002C   1003           00392         BCF     STATUS,0
+                      00393 ;; >>> /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:5297:shiftRight_Left2ResultLit
+                      00394 ;;      1109 rIdx = r0x1055 
+002D   0C??           00395         RRF     r0x100B,W
+                      00396 ;; >>> /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:5298:shiftRight_Left2ResultLit
+                      00397 ;;      1109 rIdx = r0x1056 
+002E   00??           00398         MOVWF   r0x100C
+                      00399 ;; ***  addSign  861
+                      00400 ;;; /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/genarith.c:862:addSign *{*
+                      00401 ;;shiftRight_Left2ResultLit:5273: shCount=1, size=1, sign=0, same=1, offr=0
+                      00402 ;; >>> /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:5283:shiftRight_Left2ResultLit
+002F   1003           00403         BCF     STATUS,0
+                      00404 ;; >>> /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:5293:shiftRight_Left2ResultLit
+                      00405 ;;      1109 rIdx = r0x1056 
+0030   0C??           00406         RRF     r0x100C,F
+                      00407 ;; ***  addSign  861
+                      00408 ;;; /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/genarith.c:862:addSign *{*
+                      00409 ;;; /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:2316:resultRemat *{*
+gpasm-1.4.0 #1106 (Oct  6 2014) obj\Debug\Bli   10-29-2019  15:21:38        PAGE  9
+
+
+LOC    OBJECT CODE    LINE  SOURCE TEXT
+  VALUE
+
+                      00410 ;;; /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:3619:genCmpEq *{*
+                      00411 ;; ***  genCmpEq  3620
+                      00412 ;; ifx is non-null
+                      00413 ;;      694 register type nRegs=1
+                      00414 ;;      line = 3631 result AOP_CRY=0x00, size=0, left AOP_REG=r0x1053, size=1, right AOP_REG=r0x1056, si
+                            ze=1
+                      00415 ;; ***  mov2w  1381  offset=0
+                      00416 ;; >>> /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:1386:mov2w
+                      00417 ;;      1109 rIdx = r0x1056 
+0031   08??           00418         MOVF    r0x100C,W
+                      00419 ;; >>> /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:3703:genCmpEq
+                      00420 ;;      1109 rIdx = r0x1053 
+0032   06??           00421         XORWF   r0x1009,W
+                      00422 ;; >>> /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:3705:genCmpEq
+0033   1D03           00423         BTFSS   STATUS,2
+                      00424 ;; >>> /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:3708:genCmpEq
+                      00425 ;; ***  popGetLabel  key=2, label offset 65
+0034   2???           00426         GOTO    _00167_DS_
+                      00427 ;;; /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:2316:resultRemat *{*
+                      00428 ;;; /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:2316:resultRemat *{*
+                      00429 ;;; /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:7120:genCast *{*
+                      00430 ;; ***  genCast  7121
+                      00431 ;; ***  aopForSym 315
+                      00432 ;;      327 sym->rname = _PORTB, size = 1
+                      00433 ;;      694 register type nRegs=1
+                      00434 ;;      line = 7129 result AOP_REG=r0x1055, size=1, left -=-, size=0, right AOP_DIR=_PORTB, size=1
+                      00435 ;; ***  genCast  7253
+                      00436 ;; >>> /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:7277:genCast
+                      00437 ;;      1009
+                      00438 ;;      1028  _PORTB   offset=0
+                      00439         .line   92; "BlinkerLight.c"    GPIO_WritePortPin(GPIO_PORTB_DATA, GPIO_PIN_2, RIGHT_OFF);
+0035   ???? ????      00440         BANKSEL _PORTB
+0037   08??           00441         MOVF    _PORTB,W
+                      00442 ;; >>> /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:7278:genCast
+                      00443 ;;      1109 rIdx = r0x1055 
+0038   ???? ????      00444         BANKSEL r0x100B
+003A   00??           00445         MOVWF   r0x100B
+                      00446 ;;; /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:2316:resultRemat *{*
+                      00447 ;;; /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:3919:genAnd *{*
+                      00448 ;; ***  genAnd  3920
+                      00449 ;;      694 register type nRegs=1
+                      00450 ;; ***  aopForSym 315
+                      00451 ;;      327 sym->rname = _PORTB, size = 1
+                      00452 ;;      line = 3955 result AOP_DIR=_PORTB, size=1, left AOP_REG=r0x1055, size=1, right AOP_LIT=0xfb, siz
+                            e=1
+                      00453 ;; >>> /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:4190:genAnd
+003B   30FB           00454         MOVLW   0xfb
+                      00455 ;; >>> /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:4191:genAnd
+                      00456 ;;      1109 rIdx = r0x1055 
+003C   05??           00457         ANDWF   r0x100B,W
+                      00458 ;; >>> /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:4192:genAnd
+                      00459 ;;      1009
+                      00460 ;;      1028  _PORTB   offset=0
+gpasm-1.4.0 #1106 (Oct  6 2014) obj\Debug\Bli   10-29-2019  15:21:38        PAGE 10
+
+
+LOC    OBJECT CODE    LINE  SOURCE TEXT
+  VALUE
+
+003D   ???? ????      00461         BANKSEL _PORTB
+003F   00??           00462         MOVWF   _PORTB
+                      00463 ;;; /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:2316:resultRemat *{*
+                      00464 ;;; /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:7120:genCast *{*
+                      00465 ;; ***  genCast  7121
+                      00466 ;; ***  aopForSym 315
+                      00467 ;;      327 sym->rname = _PORTB, size = 1
+                      00468 ;;      694 register type nRegs=1
+                      00469 ;;      line = 7129 result AOP_REG=r0x1055, size=1, left -=-, size=0, right AOP_DIR=_PORTB, size=1
+                      00470 ;; ***  genCast  7253
+                      00471 ;; >>> /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:7277:genCast
+                      00472 ;;      1009
+                      00473 ;;      1028  _PORTB   offset=0
+                      00474         .line   93; "BlinkerLight.c"    GPIO_WritePortPin(GPIO_PORTB_DATA, GPIO_PIN_3, LEFT_OFF);}
+0040   08??           00475         MOVF    _PORTB,W
+                      00476 ;; >>> /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:7278:genCast
+                      00477 ;;      1109 rIdx = r0x1055 
+0041   ???? ????      00478         BANKSEL r0x100B
+0043   00??           00479         MOVWF   r0x100B
+                      00480 ;;; /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:2316:resultRemat *{*
+                      00481 ;;; /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:3919:genAnd *{*
+                      00482 ;; ***  genAnd  3920
+                      00483 ;;      694 register type nRegs=1
+                      00484 ;; ***  aopForSym 315
+                      00485 ;;      327 sym->rname = _PORTB, size = 1
+                      00486 ;;      line = 3955 result AOP_DIR=_PORTB, size=1, left AOP_REG=r0x1055, size=1, right AOP_LIT=0xf7, siz
+                            e=1
+                      00487 ;; >>> /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:4190:genAnd
+0044   30F7           00488         MOVLW   0xf7
+                      00489 ;; >>> /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:4191:genAnd
+                      00490 ;;      1109 rIdx = r0x1055 
+0045   05??           00491         ANDWF   r0x100B,W
+                      00492 ;; >>> /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:4192:genAnd
+                      00493 ;;      1009
+                      00494 ;;      1028  _PORTB   offset=0
+0046   ???? ????      00495         BANKSEL _PORTB
+0048   00??           00496         MOVWF   _PORTB
+                      00497 ;;; /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:2316:resultRemat *{*
+                      00498 ;;; /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:2778:genGoto *{*
+                      00499 ;; >>> /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:2780:genGoto
+                      00500 ;; ***  popGetLabel  key=23, label offset 65
+0049   2???           00501         GOTO    _00188_DS_
+                      00502 ;;; /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:2316:resultRemat *{*
+                      00503 ;;; /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:2760:genLabel *{*
+                      00504 ;; ***  genLabel  2763
+                      00505 ;;; /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:2316:resultRemat *{*
+                      00506 ;;; /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:7120:genCast *{*
+                      00507 ;; ***  genCast  7121
+                      00508 ;; ***  aopForSym 315
+                      00509 ;;      327 sym->rname = _PORTB, size = 1
+                      00510 ;;      694 register type nRegs=1
+                      00511 ;;      line = 7129 result AOP_REG=r0x1055, size=1, left -=-, size=0, right AOP_DIR=_PORTB, size=1
+                      00512 ;; ***  genCast  7253
+gpasm-1.4.0 #1106 (Oct  6 2014) obj\Debug\Bli   10-29-2019  15:21:38        PAGE 11
+
+
+LOC    OBJECT CODE    LINE  SOURCE TEXT
+  VALUE
+
+                      00513 ;; >>> /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:7277:genCast
+                      00514 ;;      1009
+                      00515 ;;      1028  _PORTB   offset=0
+004A                  00516 _00167_DS_
+                      00517         .line   95; "BlinkerLight.c"    GPIO_WritePortPin(GPIO_PORTB_DATA, GPIO_PIN_2, RIGHT_ON);
+004A   ???? ????      00518         BANKSEL _PORTB
+004C   08??           00519         MOVF    _PORTB,W
+                      00520 ;; >>> /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:7278:genCast
+                      00521 ;;      1109 rIdx = r0x1055 
+004D   ???? ????      00522         BANKSEL r0x100B
+004F   00??           00523         MOVWF   r0x100B
+                      00524 ;;; /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:2316:resultRemat *{*
+                      00525 ;;; /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:3919:genAnd *{*
+                      00526 ;; ***  genAnd  3920
+                      00527 ;;      694 register type nRegs=1
+                      00528 ;;      694 register type nRegs=1
+                      00529 ;;      line = 3955 result AOP_REG=r0x1055, size=1, left AOP_REG=r0x1055, size=1, right AOP_LIT=0xfb, si
+                            ze=1
+                      00530 ;; >>> /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:4122:genAnd
+0050   11??           00531         BCF     r0x100B,2
+                      00532 ;;; /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:2316:resultRemat *{*
+                      00533 ;;; /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:4220:genOr *{*
+                      00534 ;; ***  genOr  4221
+                      00535 ;;      694 register type nRegs=1
+                      00536 ;; ***  aopForSym 315
+                      00537 ;;      327 sym->rname = _PORTB, size = 1
+                      00538 ;;      line = 4227 result AOP_DIR=_PORTB, size=1, left AOP_REG=r0x1055, size=1, right AOP_LIT=0x04, siz
+                            e=1
+                      00539 ;;      line = 4253 result AOP_DIR=_PORTB, size=1, left AOP_REG=r0x1055, size=1, right AOP_LIT=0x04, siz
+                            e=1
+                      00540 ;; >>> /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:4470:genOr
+0051   3004           00541         MOVLW   0x04
+                      00542 ;; >>> /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:4471:genOr
+                      00543 ;;      1109 rIdx = r0x1055 
+0052   04??           00544         IORWF   r0x100B,W
+                      00545 ;; >>> /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:4472:genOr
+                      00546 ;;      1009
+                      00547 ;;      1028  _PORTB   offset=0
+0053   ???? ????      00548         BANKSEL _PORTB
+0055   00??           00549         MOVWF   _PORTB
+                      00550 ;;; /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:2316:resultRemat *{*
+                      00551 ;;; /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:7120:genCast *{*
+                      00552 ;; ***  genCast  7121
+                      00553 ;; ***  aopForSym 315
+                      00554 ;;      327 sym->rname = _PORTB, size = 1
+                      00555 ;;      694 register type nRegs=1
+                      00556 ;;      line = 7129 result AOP_REG=r0x1055, size=1, left -=-, size=0, right AOP_DIR=_PORTB, size=1
+                      00557 ;; ***  genCast  7253
+                      00558 ;; >>> /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:7277:genCast
+                      00559 ;;      1009
+                      00560 ;;      1028  _PORTB   offset=0
+                      00561         .line   96; "BlinkerLight.c"    GPIO_WritePortPin(GPIO_PORTB_DATA, GPIO_PIN_3, LEFT_ON);
+0056   08??           00562         MOVF    _PORTB,W
+gpasm-1.4.0 #1106 (Oct  6 2014) obj\Debug\Bli   10-29-2019  15:21:38        PAGE 12
+
+
+LOC    OBJECT CODE    LINE  SOURCE TEXT
+  VALUE
+
+                      00563 ;; >>> /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:7278:genCast
+                      00564 ;;      1109 rIdx = r0x1055 
+0057   ???? ????      00565         BANKSEL r0x100B
+0059   00??           00566         MOVWF   r0x100B
+                      00567 ;;; /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:2316:resultRemat *{*
+                      00568 ;;; /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:3919:genAnd *{*
+                      00569 ;; ***  genAnd  3920
+                      00570 ;;      694 register type nRegs=1
+                      00571 ;;      694 register type nRegs=1
+                      00572 ;;      line = 3955 result AOP_REG=r0x1055, size=1, left AOP_REG=r0x1055, size=1, right AOP_LIT=0xf7, si
+                            ze=1
+                      00573 ;; >>> /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:4122:genAnd
+005A   11??           00574         BCF     r0x100B,3
+                      00575 ;;; /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:2316:resultRemat *{*
+                      00576 ;;; /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:4220:genOr *{*
+                      00577 ;; ***  genOr  4221
+                      00578 ;;      694 register type nRegs=1
+                      00579 ;; ***  aopForSym 315
+                      00580 ;;      327 sym->rname = _PORTB, size = 1
+                      00581 ;;      line = 4227 result AOP_DIR=_PORTB, size=1, left AOP_REG=r0x1055, size=1, right AOP_LIT=0x08, siz
+                            e=1
+                      00582 ;;      line = 4253 result AOP_DIR=_PORTB, size=1, left AOP_REG=r0x1055, size=1, right AOP_LIT=0x08, siz
+                            e=1
+                      00583 ;; >>> /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:4470:genOr
+005B   3008           00584         MOVLW   0x08
+                      00585 ;; >>> /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:4471:genOr
+                      00586 ;;      1109 rIdx = r0x1055 
+005C   04??           00587         IORWF   r0x100B,W
+                      00588 ;; >>> /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:4472:genOr
+                      00589 ;;      1009
+                      00590 ;;      1028  _PORTB   offset=0
+005D   ???? ????      00591         BANKSEL _PORTB
+005F   00??           00592         MOVWF   _PORTB
+                      00593 ;;; /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:2316:resultRemat *{*
+                      00594 ;;; /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:2778:genGoto *{*
+                      00595 ;; >>> /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:2780:genGoto
+                      00596 ;; ***  popGetLabel  key=23, label offset 65
+0060   2???           00597         GOTO    _00188_DS_
+                      00598 ;;; /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:2316:resultRemat *{*
+                      00599 ;;; /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:2760:genLabel *{*
+                      00600 ;; ***  genLabel  2763
+                      00601 ;;; /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:2316:resultRemat *{*
+                      00602 ;;; /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:6759:genIfx *{*
+                      00603 ;; ***  genIfx  6760
+                      00604 ;;      694 register type nRegs=1
+                      00605 ;; ***  pic14_toBoolean  1515
+                      00606 ;; >>> /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:1522:pic14_toBoolean
+0061                  00607 _00183_DS_
+                      00608         .line   99; "BlinkerLight.c"    else if((left == LEFT_OFF) && (right == RIGHT_ON)){
+0061   3000           00609         MOVLW   0x00
+                      00610 ;; >>> /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:1533:pic14_toBoolean
+                      00611 ;;      1109 rIdx = r0x1052 
+0062   ???? ????      00612         BANKSEL r0x1008
+gpasm-1.4.0 #1106 (Oct  6 2014) obj\Debug\Bli   10-29-2019  15:21:38        PAGE 13
+
+
+LOC    OBJECT CODE    LINE  SOURCE TEXT
+  VALUE
+
+0064   04??           00613         IORWF   r0x1008,W
+                      00614 ;; >>> /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:6808:genIfx
+0065   1D03           00615         BTFSS   STATUS,2
+                      00616 ;; >>> /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:6809:genIfx
+                      00617 ;; ***  popGetLabel  key=14, label offset 65
+0066   2???           00618         GOTO    _00179_DS_
+                      00619 ;;; /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:2316:resultRemat *{*
+                      00620 ;;; /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:3619:genCmpEq *{*
+                      00621 ;; ***  genCmpEq  3620
+                      00622 ;; ifx is non-null
+                      00623 ;;      694 register type nRegs=1
+                      00624 ;;      line = 3631 result AOP_CRY=0x00, size=0, left AOP_REG=r0x1053, size=1, right AOP_LIT=0x01, size=
+                            1
+                      00625 ;; ***  mov2w  1381  offset=0
+                      00626 ;; >>> /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:1386:mov2w
+                      00627 ;;      1109 rIdx = r0x1053 
+0067   08??           00628         MOVF    r0x1009,W
+                      00629 ;; >>> /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:3685:genCmpEq
+0068   3A01           00630         XORLW   0x01
+                      00631 ;; >>> /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:3687:genCmpEq
+0069   1D03           00632         BTFSS   STATUS,2
+                      00633 ;; >>> /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:3690:genCmpEq
+                      00634 ;; ***  popGetLabel  key=14, label offset 65
+006A   2???           00635         GOTO    _00179_DS_
+                      00636 ;;; /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:2316:resultRemat *{*
+                      00637 ;;; /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:2316:resultRemat *{*
+                      00638 ;;; /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:3919:genAnd *{*
+                      00639 ;; ***  genAnd  3920
+                      00640 ;; ***  aopForSym 315
+                      00641 ;;      327 sym->rname = _PORTB, size = 1
+                      00642 ;;      694 register type nRegs=1
+                      00643 ;;      line = 3955 result AOP_REG=r0x1055, size=1, left AOP_DIR=_PORTB, size=1, right AOP_LIT=0x04, siz
+                            e=1
+                      00644 ;; >>> /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:4190:genAnd
+                      00645         .line   100; "BlinkerLight.c"   if(right == GPIO_ReadPortPin(GPIO_PORTB_DATA, GPIO_PIN_2)){
+006B   3004           00646         MOVLW   0x04
+                      00647 ;; >>> /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:4191:genAnd
+                      00648 ;;      1009
+                      00649 ;;      1028  _PORTB   offset=0
+006C   ???? ????      00650         BANKSEL _PORTB
+006E   05??           00651         ANDWF   _PORTB,W
+                      00652 ;; >>> /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:4192:genAnd
+                      00653 ;;      1109 rIdx = r0x1055 
+006F   ???? ????      00654         BANKSEL r0x100B
+0071   00??           00655         MOVWF   r0x100B
+                      00656 ;;; /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:2316:resultRemat *{*
+                      00657 ;;; /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:5418:genGenericShift *{*
+                      00658 ;; ***  genGenericShift  5421
+                      00659 ;;      694 register type nRegs=1
+                      00660 ;;      694 register type nRegs=1
+                      00661 ;;shiftRight_Left2ResultLit:5273: shCount=1, size=1, sign=0, same=0, offr=0
+                      00662 ;; >>> /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:5283:shiftRight_Left2ResultLit
+0072   1003           00663         BCF     STATUS,0
+gpasm-1.4.0 #1106 (Oct  6 2014) obj\Debug\Bli   10-29-2019  15:21:38        PAGE 14
+
+
+LOC    OBJECT CODE    LINE  SOURCE TEXT
+  VALUE
+
+                      00664 ;; >>> /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:5297:shiftRight_Left2ResultLit
+                      00665 ;;      1109 rIdx = r0x1055 
+0073   0C??           00666         RRF     r0x100B,W
+                      00667 ;; >>> /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:5298:shiftRight_Left2ResultLit
+                      00668 ;;      1109 rIdx = r0x1056 
+0074   00??           00669         MOVWF   r0x100C
+                      00670 ;; ***  addSign  861
+                      00671 ;;; /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/genarith.c:862:addSign *{*
+                      00672 ;;shiftRight_Left2ResultLit:5273: shCount=1, size=1, sign=0, same=1, offr=0
+                      00673 ;; >>> /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:5283:shiftRight_Left2ResultLit
+0075   1003           00674         BCF     STATUS,0
+                      00675 ;; >>> /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:5293:shiftRight_Left2ResultLit
+                      00676 ;;      1109 rIdx = r0x1056 
+0076   0C??           00677         RRF     r0x100C,F
+                      00678 ;; ***  addSign  861
+                      00679 ;;; /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/genarith.c:862:addSign *{*
+                      00680 ;;; /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:2316:resultRemat *{*
+                      00681 ;;; /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:3619:genCmpEq *{*
+                      00682 ;; ***  genCmpEq  3620
+                      00683 ;; ifx is non-null
+                      00684 ;;      694 register type nRegs=1
+                      00685 ;;      line = 3631 result AOP_CRY=0x00, size=0, left AOP_REG=r0x1053, size=1, right AOP_REG=r0x1056, si
+                            ze=1
+                      00686 ;; ***  mov2w  1381  offset=0
+                      00687 ;; >>> /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:1386:mov2w
+                      00688 ;;      1109 rIdx = r0x1056 
+0077   08??           00689         MOVF    r0x100C,W
+                      00690 ;; >>> /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:3703:genCmpEq
+                      00691 ;;      1109 rIdx = r0x1053 
+0078   06??           00692         XORWF   r0x1009,W
+                      00693 ;; >>> /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:3705:genCmpEq
+0079   1D03           00694         BTFSS   STATUS,2
+                      00695 ;; >>> /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:3708:genCmpEq
+                      00696 ;; ***  popGetLabel  key=5, label offset 65
+007A   2???           00697         GOTO    _00170_DS_
+                      00698 ;;; /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:2316:resultRemat *{*
+                      00699 ;;; /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:2316:resultRemat *{*
+                      00700 ;;; /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:7120:genCast *{*
+                      00701 ;; ***  genCast  7121
+                      00702 ;; ***  aopForSym 315
+                      00703 ;;      327 sym->rname = _PORTB, size = 1
+                      00704 ;;      694 register type nRegs=1
+                      00705 ;;      line = 7129 result AOP_REG=r0x1055, size=1, left -=-, size=0, right AOP_DIR=_PORTB, size=1
+                      00706 ;; ***  genCast  7253
+                      00707 ;; >>> /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:7277:genCast
+                      00708 ;;      1009
+                      00709 ;;      1028  _PORTB   offset=0
+                      00710         .line   101; "BlinkerLight.c"   GPIO_WritePortPin(GPIO_PORTB_DATA, GPIO_PIN_2, RIGHT_OFF);
+007B   ???? ????      00711         BANKSEL _PORTB
+007D   08??           00712         MOVF    _PORTB,W
+                      00713 ;; >>> /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:7278:genCast
+                      00714 ;;      1109 rIdx = r0x1055 
+007E   ???? ????      00715         BANKSEL r0x100B
+gpasm-1.4.0 #1106 (Oct  6 2014) obj\Debug\Bli   10-29-2019  15:21:38        PAGE 15
+
+
+LOC    OBJECT CODE    LINE  SOURCE TEXT
+  VALUE
+
+0080   00??           00716         MOVWF   r0x100B
+                      00717 ;;; /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:2316:resultRemat *{*
+                      00718 ;;; /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:3919:genAnd *{*
+                      00719 ;; ***  genAnd  3920
+                      00720 ;;      694 register type nRegs=1
+                      00721 ;; ***  aopForSym 315
+                      00722 ;;      327 sym->rname = _PORTB, size = 1
+                      00723 ;;      line = 3955 result AOP_DIR=_PORTB, size=1, left AOP_REG=r0x1055, size=1, right AOP_LIT=0xfb, siz
+                            e=1
+                      00724 ;; >>> /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:4190:genAnd
+0081   30FB           00725         MOVLW   0xfb
+                      00726 ;; >>> /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:4191:genAnd
+                      00727 ;;      1109 rIdx = r0x1055 
+0082   05??           00728         ANDWF   r0x100B,W
+                      00729 ;; >>> /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:4192:genAnd
+                      00730 ;;      1009
+                      00731 ;;      1028  _PORTB   offset=0
+0083   ???? ????      00732         BANKSEL _PORTB
+0085   00??           00733         MOVWF   _PORTB
+                      00734 ;;; /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:2316:resultRemat *{*
+                      00735 ;;; /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:7120:genCast *{*
+                      00736 ;; ***  genCast  7121
+                      00737 ;; ***  aopForSym 315
+                      00738 ;;      327 sym->rname = _PORTB, size = 1
+                      00739 ;;      694 register type nRegs=1
+                      00740 ;;      line = 7129 result AOP_REG=r0x1055, size=1, left -=-, size=0, right AOP_DIR=_PORTB, size=1
+                      00741 ;; ***  genCast  7253
+                      00742 ;; >>> /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:7277:genCast
+                      00743 ;;      1009
+                      00744 ;;      1028  _PORTB   offset=0
+                      00745         .line   102; "BlinkerLight.c"   GPIO_WritePortPin(GPIO_PORTB_DATA, GPIO_PIN_3, LEFT_OFF);
+0086   08??           00746         MOVF    _PORTB,W
+                      00747 ;; >>> /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:7278:genCast
+                      00748 ;;      1109 rIdx = r0x1055 
+0087   ???? ????      00749         BANKSEL r0x100B
+0089   00??           00750         MOVWF   r0x100B
+                      00751 ;;; /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:2316:resultRemat *{*
+                      00752 ;;; /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:3919:genAnd *{*
+                      00753 ;; ***  genAnd  3920
+                      00754 ;;      694 register type nRegs=1
+                      00755 ;; ***  aopForSym 315
+                      00756 ;;      327 sym->rname = _PORTB, size = 1
+                      00757 ;;      line = 3955 result AOP_DIR=_PORTB, size=1, left AOP_REG=r0x1055, size=1, right AOP_LIT=0xf7, siz
+                            e=1
+                      00758 ;; >>> /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:4190:genAnd
+008A   30F7           00759         MOVLW   0xf7
+                      00760 ;; >>> /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:4191:genAnd
+                      00761 ;;      1109 rIdx = r0x1055 
+008B   05??           00762         ANDWF   r0x100B,W
+                      00763 ;; >>> /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:4192:genAnd
+                      00764 ;;      1009
+                      00765 ;;      1028  _PORTB   offset=0
+008C   ???? ????      00766         BANKSEL _PORTB
+gpasm-1.4.0 #1106 (Oct  6 2014) obj\Debug\Bli   10-29-2019  15:21:38        PAGE 16
+
+
+LOC    OBJECT CODE    LINE  SOURCE TEXT
+  VALUE
+
+008E   00??           00767         MOVWF   _PORTB
+                      00768 ;;; /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:2316:resultRemat *{*
+                      00769 ;;; /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:2778:genGoto *{*
+                      00770 ;; >>> /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:2780:genGoto
+                      00771 ;; ***  popGetLabel  key=23, label offset 65
+008F   2???           00772         GOTO    _00188_DS_
+                      00773 ;;; /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:2316:resultRemat *{*
+                      00774 ;;; /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:2760:genLabel *{*
+                      00775 ;; ***  genLabel  2763
+                      00776 ;;; /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:2316:resultRemat *{*
+                      00777 ;;; /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:7120:genCast *{*
+                      00778 ;; ***  genCast  7121
+                      00779 ;; ***  aopForSym 315
+                      00780 ;;      327 sym->rname = _PORTB, size = 1
+                      00781 ;;      694 register type nRegs=1
+                      00782 ;;      line = 7129 result AOP_REG=r0x1055, size=1, left -=-, size=0, right AOP_DIR=_PORTB, size=1
+                      00783 ;; ***  genCast  7253
+                      00784 ;; >>> /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:7277:genCast
+                      00785 ;;      1009
+                      00786 ;;      1028  _PORTB   offset=0
+0090                  00787 _00170_DS_
+                      00788         .line   105; "BlinkerLight.c"   GPIO_WritePortPin(GPIO_PORTB_DATA, GPIO_PIN_2, RIGHT_ON);
+0090   ???? ????      00789         BANKSEL _PORTB
+0092   08??           00790         MOVF    _PORTB,W
+                      00791 ;; >>> /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:7278:genCast
+                      00792 ;;      1109 rIdx = r0x1055 
+0093   ???? ????      00793         BANKSEL r0x100B
+0095   00??           00794         MOVWF   r0x100B
+                      00795 ;;; /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:2316:resultRemat *{*
+                      00796 ;;; /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:3919:genAnd *{*
+                      00797 ;; ***  genAnd  3920
+                      00798 ;;      694 register type nRegs=1
+                      00799 ;;      694 register type nRegs=1
+                      00800 ;;      line = 3955 result AOP_REG=r0x1055, size=1, left AOP_REG=r0x1055, size=1, right AOP_LIT=0xfb, si
+                            ze=1
+                      00801 ;; >>> /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:4122:genAnd
+0096   11??           00802         BCF     r0x100B,2
+                      00803 ;;; /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:2316:resultRemat *{*
+                      00804 ;;; /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:4220:genOr *{*
+                      00805 ;; ***  genOr  4221
+                      00806 ;;      694 register type nRegs=1
+                      00807 ;; ***  aopForSym 315
+                      00808 ;;      327 sym->rname = _PORTB, size = 1
+                      00809 ;;      line = 4227 result AOP_DIR=_PORTB, size=1, left AOP_REG=r0x1055, size=1, right AOP_LIT=0x04, siz
+                            e=1
+                      00810 ;;      line = 4253 result AOP_DIR=_PORTB, size=1, left AOP_REG=r0x1055, size=1, right AOP_LIT=0x04, siz
+                            e=1
+                      00811 ;; >>> /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:4470:genOr
+0097   3004           00812         MOVLW   0x04
+                      00813 ;; >>> /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:4471:genOr
+                      00814 ;;      1109 rIdx = r0x1055 
+0098   04??           00815         IORWF   r0x100B,W
+                      00816 ;; >>> /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:4472:genOr
+gpasm-1.4.0 #1106 (Oct  6 2014) obj\Debug\Bli   10-29-2019  15:21:38        PAGE 17
+
+
+LOC    OBJECT CODE    LINE  SOURCE TEXT
+  VALUE
+
+                      00817 ;;      1009
+                      00818 ;;      1028  _PORTB   offset=0
+0099   ???? ????      00819         BANKSEL _PORTB
+009B   00??           00820         MOVWF   _PORTB
+                      00821 ;;; /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:2316:resultRemat *{*
+                      00822 ;;; /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:7120:genCast *{*
+                      00823 ;; ***  genCast  7121
+                      00824 ;; ***  aopForSym 315
+                      00825 ;;      327 sym->rname = _PORTB, size = 1
+                      00826 ;;      694 register type nRegs=1
+                      00827 ;;      line = 7129 result AOP_REG=r0x1055, size=1, left -=-, size=0, right AOP_DIR=_PORTB, size=1
+                      00828 ;; ***  genCast  7253
+                      00829 ;; >>> /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:7277:genCast
+                      00830 ;;      1009
+                      00831 ;;      1028  _PORTB   offset=0
+                      00832         .line   106; "BlinkerLight.c"   GPIO_WritePortPin(GPIO_PORTB_DATA, GPIO_PIN_3, LEFT_OFF);
+009C   08??           00833         MOVF    _PORTB,W
+                      00834 ;; >>> /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:7278:genCast
+                      00835 ;;      1109 rIdx = r0x1055 
+009D   ???? ????      00836         BANKSEL r0x100B
+009F   00??           00837         MOVWF   r0x100B
+                      00838 ;;; /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:2316:resultRemat *{*
+                      00839 ;;; /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:3919:genAnd *{*
+                      00840 ;; ***  genAnd  3920
+                      00841 ;;      694 register type nRegs=1
+                      00842 ;; ***  aopForSym 315
+                      00843 ;;      327 sym->rname = _PORTB, size = 1
+                      00844 ;;      line = 3955 result AOP_DIR=_PORTB, size=1, left AOP_REG=r0x1055, size=1, right AOP_LIT=0xf7, siz
+                            e=1
+                      00845 ;; >>> /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:4190:genAnd
+00A0   30F7           00846         MOVLW   0xf7
+                      00847 ;; >>> /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:4191:genAnd
+                      00848 ;;      1109 rIdx = r0x1055 
+00A1   05??           00849         ANDWF   r0x100B,W
+                      00850 ;; >>> /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:4192:genAnd
+                      00851 ;;      1009
+                      00852 ;;      1028  _PORTB   offset=0
+00A2   ???? ????      00853         BANKSEL _PORTB
+00A4   00??           00854         MOVWF   _PORTB
+                      00855 ;;; /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:2316:resultRemat *{*
+                      00856 ;;; /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:2778:genGoto *{*
+                      00857 ;; >>> /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:2780:genGoto
+                      00858 ;; ***  popGetLabel  key=23, label offset 65
+00A5   2???           00859         GOTO    _00188_DS_
+                      00860 ;;; /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:2316:resultRemat *{*
+                      00861 ;;; /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:2760:genLabel *{*
+                      00862 ;; ***  genLabel  2763
+                      00863 ;;; /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:2316:resultRemat *{*
+                      00864 ;;; /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:6759:genIfx *{*
+                      00865 ;; ***  genIfx  6760
+                      00866 ;;      694 register type nRegs=1
+                      00867 ;; ***  pic14_toBoolean  1515
+                      00868 ;; >>> /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:1522:pic14_toBoolean
+gpasm-1.4.0 #1106 (Oct  6 2014) obj\Debug\Bli   10-29-2019  15:21:38        PAGE 18
+
+
+LOC    OBJECT CODE    LINE  SOURCE TEXT
+  VALUE
+
+00A6                  00869 _00179_DS_
+                      00870         .line   109; "BlinkerLight.c"   else if((left == LEFT_ON) && (right == RIGHT_OFF)){
+00A6   3000           00871         MOVLW   0x00
+                      00872 ;; >>> /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:1533:pic14_toBoolean
+                      00873 ;;      1109 rIdx = r0x1054 
+00A7   ???? ????      00874         BANKSEL r0x100A
+00A9   04??           00875         IORWF   r0x100A,W
+                      00876 ;; >>> /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:6813:genIfx
+00AA   1903           00877         BTFSC   STATUS,2
+                      00878 ;; >>> /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:6814:genIfx
+                      00879 ;; ***  popGetLabel  key=23, label offset 65
+00AB   2???           00880         GOTO    _00188_DS_
+                      00881 ;;; /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:2316:resultRemat *{*
+                      00882 ;;; /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:6759:genIfx *{*
+                      00883 ;; ***  genIfx  6760
+                      00884 ;;      694 register type nRegs=1
+                      00885 ;; ***  pic14_toBoolean  1515
+                      00886 ;; >>> /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:1522:pic14_toBoolean
+00AC   08??           00887         MOVF    r0x1009,W
+00AD   1D03           00888         BTFSS   STATUS,2
+                      00889 ;; >>> /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:6809:genIfx
+                      00890 ;; ***  popGetLabel  key=23, label offset 65
+00AE   2???           00891         GOTO    _00188_DS_
+                      00892 ;;; /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:2316:resultRemat *{*
+                      00893 ;;; /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:3919:genAnd *{*
+                      00894 ;; ***  genAnd  3920
+                      00895 ;; ***  aopForSym 315
+                      00896 ;;      327 sym->rname = _PORTB, size = 1
+                      00897 ;;      694 register type nRegs=1
+                      00898 ;;      line = 3955 result AOP_REG=r0x1053, size=1, left AOP_DIR=_PORTB, size=1, right AOP_LIT=0x08, siz
+                            e=1
+                      00899 ;; >>> /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:4190:genAnd
+                      00900         .line   110; "BlinkerLight.c"   if(left == GPIO_ReadPortPin(GPIO_PORTB_DATA, GPIO_PIN_3)){
+00AF   3008           00901         MOVLW   0x08
+                      00902 ;; >>> /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:4191:genAnd
+                      00903 ;;      1009
+                      00904 ;;      1028  _PORTB   offset=0
+00B0   ???? ????      00905         BANKSEL _PORTB
+00B2   05??           00906         ANDWF   _PORTB,W
+                      00907 ;; >>> /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:4192:genAnd
+                      00908 ;;      1109 rIdx = r0x1053 
+00B3   ???? ????      00909         BANKSEL r0x1009
+00B5   00??           00910         MOVWF   r0x1009
+                      00911 ;;; /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:2316:resultRemat *{*
+                      00912 ;;; /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:5418:genGenericShift *{*
+                      00913 ;; ***  genGenericShift  5421
+                      00914 ;;      694 register type nRegs=1
+                      00915 ;;      694 register type nRegs=1
+                      00916 ;;shiftRight_Left2ResultLit:5273: shCount=1, size=1, sign=0, same=0, offr=0
+                      00917 ;; >>> /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:5283:shiftRight_Left2ResultLit
+00B6   1003           00918         BCF     STATUS,0
+                      00919 ;; >>> /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:5297:shiftRight_Left2ResultLit
+                      00920 ;;      1109 rIdx = r0x1053 
+gpasm-1.4.0 #1106 (Oct  6 2014) obj\Debug\Bli   10-29-2019  15:21:38        PAGE 19
+
+
+LOC    OBJECT CODE    LINE  SOURCE TEXT
+  VALUE
+
+00B7   0C??           00921         RRF     r0x1009,W
+                      00922 ;; >>> /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:5298:shiftRight_Left2ResultLit
+                      00923 ;;      1109 rIdx = r0x1054 
+00B8   00??           00924         MOVWF   r0x100A
+                      00925 ;; ***  addSign  861
+                      00926 ;;; /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/genarith.c:862:addSign *{*
+                      00927 ;;shiftRight_Left2ResultLit:5273: shCount=1, size=1, sign=0, same=1, offr=0
+                      00928 ;; >>> /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:5283:shiftRight_Left2ResultLit
+00B9   1003           00929         BCF     STATUS,0
+                      00930 ;; >>> /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:5293:shiftRight_Left2ResultLit
+                      00931 ;;      1109 rIdx = r0x1054 
+00BA   0C??           00932         RRF     r0x100A,F
+                      00933 ;; ***  addSign  861
+                      00934 ;;; /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/genarith.c:862:addSign *{*
+                      00935 ;;shiftRight_Left2ResultLit:5273: shCount=1, size=1, sign=0, same=1, offr=0
+                      00936 ;; >>> /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:5283:shiftRight_Left2ResultLit
+00BB   1003           00937         BCF     STATUS,0
+                      00938 ;; >>> /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:5293:shiftRight_Left2ResultLit
+                      00939 ;;      1109 rIdx = r0x1054 
+00BC   0C??           00940         RRF     r0x100A,F
+                      00941 ;; ***  addSign  861
+                      00942 ;;; /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/genarith.c:862:addSign *{*
+                      00943 ;;; /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:2316:resultRemat *{*
+                      00944 ;;; /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:3619:genCmpEq *{*
+                      00945 ;; ***  genCmpEq  3620
+                      00946 ;; ifx is non-null
+                      00947 ;;      694 register type nRegs=1
+                      00948 ;;      line = 3631 result AOP_CRY=0x00, size=0, left AOP_REG=r0x1052, size=1, right AOP_REG=r0x1054, si
+                            ze=1
+                      00949 ;; ***  mov2w  1381  offset=0
+                      00950 ;; >>> /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:1386:mov2w
+                      00951 ;;      1109 rIdx = r0x1054 
+00BD   08??           00952         MOVF    r0x100A,W
+                      00953 ;; >>> /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:3703:genCmpEq
+                      00954 ;;      1109 rIdx = r0x1052 
+00BE   06??           00955         XORWF   r0x1008,W
+                      00956 ;; >>> /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:3705:genCmpEq
+00BF   1D03           00957         BTFSS   STATUS,2
+                      00958 ;; >>> /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:3708:genCmpEq
+                      00959 ;; ***  popGetLabel  key=8, label offset 65
+00C0   2???           00960         GOTO    _00173_DS_
+                      00961 ;;; /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:2316:resultRemat *{*
+                      00962 ;;; /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:2316:resultRemat *{*
+                      00963 ;;; /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:7120:genCast *{*
+                      00964 ;; ***  genCast  7121
+                      00965 ;; ***  aopForSym 315
+                      00966 ;;      327 sym->rname = _PORTB, size = 1
+                      00967 ;;      694 register type nRegs=1
+                      00968 ;;      line = 7129 result AOP_REG=r0x1052, size=1, left -=-, size=0, right AOP_DIR=_PORTB, size=1
+                      00969 ;; ***  genCast  7253
+                      00970 ;; >>> /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:7277:genCast
+                      00971 ;;      1009
+                      00972 ;;      1028  _PORTB   offset=0
+gpasm-1.4.0 #1106 (Oct  6 2014) obj\Debug\Bli   10-29-2019  15:21:38        PAGE 20
+
+
+LOC    OBJECT CODE    LINE  SOURCE TEXT
+  VALUE
+
+                      00973         .line   111; "BlinkerLight.c"   GPIO_WritePortPin(GPIO_PORTB_DATA, GPIO_PIN_2, RIGHT_OFF);
+00C1   ???? ????      00974         BANKSEL _PORTB
+00C3   08??           00975         MOVF    _PORTB,W
+                      00976 ;; >>> /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:7278:genCast
+                      00977 ;;      1109 rIdx = r0x1052 
+00C4   ???? ????      00978         BANKSEL r0x1008
+00C6   00??           00979         MOVWF   r0x1008
+                      00980 ;;; /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:2316:resultRemat *{*
+                      00981 ;;; /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:3919:genAnd *{*
+                      00982 ;; ***  genAnd  3920
+                      00983 ;;      694 register type nRegs=1
+                      00984 ;; ***  aopForSym 315
+                      00985 ;;      327 sym->rname = _PORTB, size = 1
+                      00986 ;;      line = 3955 result AOP_DIR=_PORTB, size=1, left AOP_REG=r0x1052, size=1, right AOP_LIT=0xfb, siz
+                            e=1
+                      00987 ;; >>> /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:4190:genAnd
+00C7   30FB           00988         MOVLW   0xfb
+                      00989 ;; >>> /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:4191:genAnd
+                      00990 ;;      1109 rIdx = r0x1052 
+00C8   05??           00991         ANDWF   r0x1008,W
+                      00992 ;; >>> /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:4192:genAnd
+                      00993 ;;      1009
+                      00994 ;;      1028  _PORTB   offset=0
+00C9   ???? ????      00995         BANKSEL _PORTB
+00CB   00??           00996         MOVWF   _PORTB
+                      00997 ;;; /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:2316:resultRemat *{*
+                      00998 ;;; /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:7120:genCast *{*
+                      00999 ;; ***  genCast  7121
+                      01000 ;; ***  aopForSym 315
+                      01001 ;;      327 sym->rname = _PORTB, size = 1
+                      01002 ;;      694 register type nRegs=1
+                      01003 ;;      line = 7129 result AOP_REG=r0x1052, size=1, left -=-, size=0, right AOP_DIR=_PORTB, size=1
+                      01004 ;; ***  genCast  7253
+                      01005 ;; >>> /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:7277:genCast
+                      01006 ;;      1009
+                      01007 ;;      1028  _PORTB   offset=0
+                      01008         .line   112; "BlinkerLight.c"   GPIO_WritePortPin(GPIO_PORTB_DATA, GPIO_PIN_3, LEFT_OFF);
+00CC   08??           01009         MOVF    _PORTB,W
+                      01010 ;; >>> /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:7278:genCast
+                      01011 ;;      1109 rIdx = r0x1052 
+00CD   ???? ????      01012         BANKSEL r0x1008
+00CF   00??           01013         MOVWF   r0x1008
+                      01014 ;;; /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:2316:resultRemat *{*
+                      01015 ;;; /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:3919:genAnd *{*
+                      01016 ;; ***  genAnd  3920
+                      01017 ;;      694 register type nRegs=1
+                      01018 ;; ***  aopForSym 315
+                      01019 ;;      327 sym->rname = _PORTB, size = 1
+                      01020 ;;      line = 3955 result AOP_DIR=_PORTB, size=1, left AOP_REG=r0x1052, size=1, right AOP_LIT=0xf7, siz
+                            e=1
+                      01021 ;; >>> /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:4190:genAnd
+00D0   30F7           01022         MOVLW   0xf7
+                      01023 ;; >>> /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:4191:genAnd
+gpasm-1.4.0 #1106 (Oct  6 2014) obj\Debug\Bli   10-29-2019  15:21:38        PAGE 21
+
+
+LOC    OBJECT CODE    LINE  SOURCE TEXT
+  VALUE
+
+                      01024 ;;      1109 rIdx = r0x1052 
+00D1   05??           01025         ANDWF   r0x1008,W
+                      01026 ;; >>> /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:4192:genAnd
+                      01027 ;;      1009
+                      01028 ;;      1028  _PORTB   offset=0
+00D2   ???? ????      01029         BANKSEL _PORTB
+00D4   00??           01030         MOVWF   _PORTB
+                      01031 ;;; /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:2316:resultRemat *{*
+                      01032 ;;; /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:2778:genGoto *{*
+                      01033 ;; >>> /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:2780:genGoto
+                      01034 ;; ***  popGetLabel  key=23, label offset 65
+00D5   2???           01035         GOTO    _00188_DS_
+                      01036 ;;; /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:2316:resultRemat *{*
+                      01037 ;;; /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:2760:genLabel *{*
+                      01038 ;; ***  genLabel  2763
+                      01039 ;;; /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:2316:resultRemat *{*
+                      01040 ;;; /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:7120:genCast *{*
+                      01041 ;; ***  genCast  7121
+                      01042 ;; ***  aopForSym 315
+                      01043 ;;      327 sym->rname = _PORTB, size = 1
+                      01044 ;;      694 register type nRegs=1
+                      01045 ;;      line = 7129 result AOP_REG=r0x1052, size=1, left -=-, size=0, right AOP_DIR=_PORTB, size=1
+                      01046 ;; ***  genCast  7253
+                      01047 ;; >>> /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:7277:genCast
+                      01048 ;;      1009
+                      01049 ;;      1028  _PORTB   offset=0
+00D6                  01050 _00173_DS_
+                      01051         .line   115; "BlinkerLight.c"   GPIO_WritePortPin(GPIO_PORTB_DATA, GPIO_PIN_2, RIGHT_OFF);
+00D6   ???? ????      01052         BANKSEL _PORTB
+00D8   08??           01053         MOVF    _PORTB,W
+                      01054 ;; >>> /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:7278:genCast
+                      01055 ;;      1109 rIdx = r0x1052 
+00D9   ???? ????      01056         BANKSEL r0x1008
+00DB   00??           01057         MOVWF   r0x1008
+                      01058 ;;; /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:2316:resultRemat *{*
+                      01059 ;;; /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:3919:genAnd *{*
+                      01060 ;; ***  genAnd  3920
+                      01061 ;;      694 register type nRegs=1
+                      01062 ;; ***  aopForSym 315
+                      01063 ;;      327 sym->rname = _PORTB, size = 1
+                      01064 ;;      line = 3955 result AOP_DIR=_PORTB, size=1, left AOP_REG=r0x1052, size=1, right AOP_LIT=0xfb, siz
+                            e=1
+                      01065 ;; >>> /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:4190:genAnd
+00DC   30FB           01066         MOVLW   0xfb
+                      01067 ;; >>> /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:4191:genAnd
+                      01068 ;;      1109 rIdx = r0x1052 
+00DD   05??           01069         ANDWF   r0x1008,W
+                      01070 ;; >>> /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:4192:genAnd
+                      01071 ;;      1009
+                      01072 ;;      1028  _PORTB   offset=0
+00DE   ???? ????      01073         BANKSEL _PORTB
+00E0   00??           01074         MOVWF   _PORTB
+                      01075 ;;; /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:2316:resultRemat *{*
+gpasm-1.4.0 #1106 (Oct  6 2014) obj\Debug\Bli   10-29-2019  15:21:38        PAGE 22
+
+
+LOC    OBJECT CODE    LINE  SOURCE TEXT
+  VALUE
+
+                      01076 ;;; /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:7120:genCast *{*
+                      01077 ;; ***  genCast  7121
+                      01078 ;; ***  aopForSym 315
+                      01079 ;;      327 sym->rname = _PORTB, size = 1
+                      01080 ;;      694 register type nRegs=1
+                      01081 ;;      line = 7129 result AOP_REG=r0x1052, size=1, left -=-, size=0, right AOP_DIR=_PORTB, size=1
+                      01082 ;; ***  genCast  7253
+                      01083 ;; >>> /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:7277:genCast
+                      01084 ;;      1009
+                      01085 ;;      1028  _PORTB   offset=0
+                      01086         .line   116; "BlinkerLight.c"   GPIO_WritePortPin(GPIO_PORTB_DATA, GPIO_PIN_3, LEFT_ON);
+00E1   08??           01087         MOVF    _PORTB,W
+                      01088 ;; >>> /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:7278:genCast
+                      01089 ;;      1109 rIdx = r0x1052 
+00E2   ???? ????      01090         BANKSEL r0x1008
+00E4   00??           01091         MOVWF   r0x1008
+                      01092 ;;; /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:2316:resultRemat *{*
+                      01093 ;;; /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:3919:genAnd *{*
+                      01094 ;; ***  genAnd  3920
+                      01095 ;;      694 register type nRegs=1
+                      01096 ;;      694 register type nRegs=1
+                      01097 ;;      line = 3955 result AOP_REG=r0x1052, size=1, left AOP_REG=r0x1052, size=1, right AOP_LIT=0xf7, si
+                            ze=1
+                      01098 ;; >>> /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:4122:genAnd
+00E5   11??           01099         BCF     r0x1008,3
+                      01100 ;;; /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:2316:resultRemat *{*
+                      01101 ;;; /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:4220:genOr *{*
+                      01102 ;; ***  genOr  4221
+                      01103 ;;      694 register type nRegs=1
+                      01104 ;; ***  aopForSym 315
+                      01105 ;;      327 sym->rname = _PORTB, size = 1
+                      01106 ;;      line = 4227 result AOP_DIR=_PORTB, size=1, left AOP_REG=r0x1052, size=1, right AOP_LIT=0x08, siz
+                            e=1
+                      01107 ;;      line = 4253 result AOP_DIR=_PORTB, size=1, left AOP_REG=r0x1052, size=1, right AOP_LIT=0x08, siz
+                            e=1
+                      01108 ;; >>> /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:4470:genOr
+00E6   3008           01109         MOVLW   0x08
+                      01110 ;; >>> /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:4471:genOr
+                      01111 ;;      1109 rIdx = r0x1052 
+00E7   04??           01112         IORWF   r0x1008,W
+                      01113 ;; >>> /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:4472:genOr
+                      01114 ;;      1009
+                      01115 ;;      1028  _PORTB   offset=0
+00E8   ???? ????      01116         BANKSEL _PORTB
+00EA   00??           01117         MOVWF   _PORTB
+                      01118 ;;; /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:2316:resultRemat *{*
+                      01119 ;;; /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:2760:genLabel *{*
+                      01120 ;; ***  genLabel  2763
+                      01121 ;;; /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:2316:resultRemat *{*
+                      01122 ;;; /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:2528:genEndFunction *{*
+                      01123 ;; ***  genEndFunction  2530
+00EB                  01124 _00188_DS_
+00EB   0008           01125         RETURN  
+gpasm-1.4.0 #1106 (Oct  6 2014) obj\Debug\Bli   10-29-2019  15:21:38        PAGE 23
+
+
+LOC    OBJECT CODE    LINE  SOURCE TEXT
+  VALUE
+
+                      01126 ; exit point of _Light_Toggle
+                      01127 ;;; /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:7426:genpic14Code *{*
+                      01128 
+                      01129 ;***
+                      01130 ;  pBlock Stats: dbName = C
+                      01131 ;***
+                      01132 ;entry:  _Blinker_Light_Update  ;Function start
+                      01133 ; 2 exit points
+                      01134 ;has an exit
+                      01135 ;functions called:
+                      01136 ;   _SW_Update
+                      01137 ;   _get_SW_State
+                      01138 ;   _ADC_Update
+                      01139 ;   _ADC_Get
+                      01140 ;   _Light_Toggle
+                      01141 ;   _Light_Toggle
+                      01142 ;   _Light_Toggle
+                      01143 ;   _SW_Update
+                      01144 ;   _get_SW_State
+                      01145 ;   _ADC_Update
+                      01146 ;   _ADC_Get
+                      01147 ;   _Light_Toggle
+                      01148 ;   _Light_Toggle
+                      01149 ;   _Light_Toggle
+                      01150 ;5 compiler assigned registers:
+                      01151 ;   r0x100D
+                      01152 ;   r0x100E
+                      01153 ;   r0x100F
+                      01154 ;   STK01
+                      01155 ;   STK00
+                      01156 ;; Starting pCode block
+                      01157 ;;; /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:2316:resultRemat *{*
+                      01158 ;;; /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:2760:genLabel *{*
+                      01159 ;; ***  genLabel  2763
+                      01160 ;;; /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:2316:resultRemat *{*
+                      01161 ;;; /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:2340:genFunction *{*
+                      01162 ;; ***  genFunction  2342 curr label offset=4previous max_key=0 
+00EC                  01163 _Blinker_Light_Update   ;Function start
+                      01164 ; 2 exit points
+                      01165 ;;; /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:2316:resultRemat *{*
+                      01166 ;; ***  genPlus  611
+                      01167 ;;; /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/genarith.c:612:genPlus *{*
+                      01168 ;; ***  aopForSym 315
+                      01169 ;;      327 sym->rname = _Blinker_Light_Update_current_Time_1_16, size = 1
+                      01170 ;;      575
+                      01171 ;;      line = 618 result AOP_DIR=_Blinker_Light_Update_current_Time_1_16, size=1, left AOP_DIR=_Blinker
+                            _Light_Update_current_Time_1_16, size=1, right AOP_LIT=0x05, size=1
+                      01172 ;;; /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/genarith.c:142:genPlusIncr *{*
+                      01173 ;; ***  genPlusIncr  144
+                      01174 ;;      result AOP_DIR, left AOP_DIR, right AOP_LIT
+                      01175 ;;      genPlusIncr  156
+                      01176 ;;      adding lit to something. size 1
+                      01177 ;;; /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/genarith.c:269:genAddLit *{*
+gpasm-1.4.0 #1106 (Oct  6 2014) obj\Debug\Bli   10-29-2019  15:21:38        PAGE 24
+
+
+LOC    OBJECT CODE    LINE  SOURCE TEXT
+  VALUE
+
+                      01178 ;; ***  genAddLit  270
+                      01179 ;;; /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/genarith.c:233:genAddLit2byte *{*
+                      01180 ;; >>> /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/genarith.c:245:genAddLit2byte
+                      01181         .line   27; "BlinkerLight.c"    current_Time += OS_TICK;
+00EC   3005           01182         MOVLW   0x05
+                      01183 ;; >>> /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/genarith.c:246:genAddLit2byte
+                      01184 ;;      1009
+                      01185 ;;      1028  _Blinker_Light_Update_current_Time_1_16   offset=0
+00ED   ???? ????      01186         BANKSEL _Blinker_Light_Update_current_Time_1_16
+00EF   07??           01187         ADDWF   _Blinker_Light_Update_current_Time_1_16,F
+                      01188 ;; ***  addSign  861
+                      01189 ;;; /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/genarith.c:862:addSign *{*
+                      01190 ;;; /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:2316:resultRemat *{*
+                      01191 ;;; /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:3583:genCmpLt *{*
+                      01192 ;; ***  genCmpLt  3584
+                      01193 ;; ***  aopForSym 315
+                      01194 ;;      327 sym->rname = _Blinker_Light_Update_current_Time_1_16, size = 1
+                      01195 ;;; /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:3294:genCmp *{*
+                      01196 ;;unsigned compare: left < lit(0xA=10), size=1
+                      01197 ;; >>> /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:3265:pic14_mov2w_regOrLit
+                      01198         .line   28; "BlinkerLight.c"    if(current_Time < BLINKER_LIGHT_PRIODE){
+00F0   300A           01199         MOVLW   0x0a
+                      01200 ;; >>> /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:3432:genCmp
+                      01201 ;;      1009
+                      01202 ;;      1028  _Blinker_Light_Update_current_Time_1_16   offset=0
+                      01203         .line   29; "BlinkerLight.c"    return;
+00F1   02??           01204         SUBWF   _Blinker_Light_Update_current_Time_1_16,W
+                      01205         .line   31; "BlinkerLight.c"    current_Time = 0;
+00F2   1C03           01206         BTFSS   STATUS,0
+00F3   2???           01207         GOTO    _00128_DS_
+00F4   01??           01208         CLRF    _Blinker_Light_Update_current_Time_1_16
+                      01209         .line   32; "BlinkerLight.c"    SW_Update();
+00F5   ???? ????      01210         PAGESEL _SW_Update
+                      01211 ;; >>> /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:2175:genCall
+00F7   2???           01212         CALL    _SW_Update
+                      01213 ;; >>> /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:2181:genCall
+00F8   ???? ????      01214         PAGESEL $
+                      01215 ;;; /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:1845:unsaveRegisters *{*
+                      01216 ;; ***  unsaveRegisters  1847
+                      01217 ;;; /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:2316:resultRemat *{*
+                      01218 ;;; /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:2316:resultRemat *{*
+                      01219 ;;; /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:7120:genCast *{*
+                      01220 ;; ***  genCast  7121
+                      01221 ;;      613
+                      01222 ;;      aopForRemat 392
+                      01223 ;;      418: rname _sw_output, val 0, const = 0
+                      01224 ;;      694 register type nRegs=3
+                      01225 ;;      833: aopGet AOP_PCODE type PO_IMMEDIATE
+                      01226 ;;      _sw_output
+                      01227 ;;      line = 7129 result AOP_REG=r0x104C, size=3, left -=-, size=0, right AOP_PCODE=_sw_output, size=2
+                      01228 ;; ***  genCast  7174
+                      01229 ;;; /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:1343:mov2w_op *{*
+                      01230 ;; >>> /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:1361:mov2w_op
+gpasm-1.4.0 #1106 (Oct  6 2014) obj\Debug\Bli   10-29-2019  15:21:38        PAGE 25
+
+
+LOC    OBJECT CODE    LINE  SOURCE TEXT
+  VALUE
+
+                      01231         .line   33; "BlinkerLight.c"    get_SW_State(&sw_output);
+00FA   30??           01232         MOVLW   high (_sw_output + 0)
+                      01233 ;; >>> /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:1393:movwf
+                      01234 ;;      1109 rIdx = r0x104D 
+00FB   ???? ????      01235         BANKSEL r0x100D
+00FD   00??           01236         MOVWF   r0x100D
+                      01237 ;;; /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:1343:mov2w_op *{*
+                      01238 ;; >>> /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:1361:mov2w_op
+00FE   30??           01239         MOVLW   (_sw_output + 0)
+                      01240 ;; >>> /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:1393:movwf
+                      01241 ;;      1109 rIdx = r0x104C 
+00FF   00??           01242         MOVWF   r0x100E
+                      01243 ;; >>> /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:7230:genCast
+                      01244 ;;      1109 rIdx = r0x104E 
+0100   01??           01245         CLRF    r0x100F
+                      01246 ;;; /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:2316:resultRemat *{*
+                      01247 ;;; /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:2316:resultRemat *{*
+                      01248 ;;; /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:2086:genCall *{*
+                      01249 ;; ***  genCall  2088
+                      01250 ;;; /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:1801:saveRegisters *{*
+                      01251 ;; ***  saveRegisters  1803
+                      01252 ;;      694 register type nRegs=3
+                      01253 ;;      694 register type nRegs=3
+                      01254 ;;      2135 left AOP_REG
+                      01255 ;;; /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:1343:mov2w_op *{*
+                      01256 ;; ***  mov2w  1381  offset=0
+                      01257 ;; >>> /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:1386:mov2w
+                      01258 ;;      1109 rIdx = r0x104C 
+0101   08??           01259         MOVF    r0x100E,W
+                      01260 ;;      2135 left AOP_REG
+                      01261 ;; >>> /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:2143:genCall
+                      01262 ;; ***  popRegFromIdx,1042  , rIdx=0x7e
+0102   00??           01263         MOVWF   STK01
+                      01264 ;;; /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:1343:mov2w_op *{*
+                      01265 ;; ***  mov2w  1381  offset=1
+                      01266 ;; >>> /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:1386:mov2w
+                      01267 ;;      1109 rIdx = r0x104D 
+0103   08??           01268         MOVF    r0x100D,W
+                      01269 ;;      2135 left AOP_REG
+                      01270 ;; >>> /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:2143:genCall
+                      01271 ;; ***  popRegFromIdx,1042  , rIdx=0x7f
+0104   00??           01272         MOVWF   STK00
+                      01273 ;;; /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:1343:mov2w_op *{*
+                      01274 ;; ***  mov2w  1381  offset=2
+                      01275 ;; >>> /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:1386:mov2w
+                      01276 ;;      1109 rIdx = r0x104E 
+0105   3000           01277         MOVLW   0x00
+                      01278 ;; >>> /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:2173:genCall
+0106   ???? ????      01279         PAGESEL _get_SW_State
+                      01280 ;; >>> /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:2175:genCall
+0108   2???           01281         CALL    _get_SW_State
+                      01282 ;; >>> /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:2181:genCall
+0109   ???? ????      01283         PAGESEL $
+gpasm-1.4.0 #1106 (Oct  6 2014) obj\Debug\Bli   10-29-2019  15:21:38        PAGE 26
+
+
+LOC    OBJECT CODE    LINE  SOURCE TEXT
+  VALUE
+
+                      01284 ;;; /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:1845:unsaveRegisters *{*
+                      01285 ;; ***  unsaveRegisters  1847
+                      01286 ;;; /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:2316:resultRemat *{*
+                      01287 ;;; /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:6759:genIfx *{*
+                      01288 ;; ***  genIfx  6760
+                      01289 ;; ***  aopForSym 315
+                      01290 ;;      327 sym->rname = _sw_previous, size = 1
+                      01291 ;; ***  pic14_toBoolean  1515
+                      01292 ;; >>> /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:1522:pic14_toBoolean
+                      01293         .line   37; "BlinkerLight.c"    if((sw_previous == unpressed) && (sw_output == O_Pressed)){
+010B   3000           01294         MOVLW   0x00
+                      01295 ;; >>> /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:1533:pic14_toBoolean
+                      01296 ;;      1009
+                      01297 ;;      1028  _sw_previous   offset=0
+010C   ???? ????      01298         BANKSEL _sw_previous
+010E   04??           01299         IORWF   _sw_previous,W
+                      01300 ;; >>> /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:6808:genIfx
+010F   1D03           01301         BTFSS   STATUS,2
+                      01302 ;; >>> /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:6809:genIfx
+                      01303 ;; ***  popGetLabel  key=7, label offset 8
+0110   2???           01304         GOTO    _00115_DS_
+                      01305 ;;; /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:2316:resultRemat *{*
+                      01306 ;;; /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:3619:genCmpEq *{*
+                      01307 ;; ***  genCmpEq  3620
+                      01308 ;; ifx is non-null
+                      01309 ;; ***  aopForSym 315
+                      01310 ;;      327 sym->rname = _sw_output, size = 1
+                      01311 ;;      line = 3631 result AOP_CRY=0x00, size=0, left AOP_DIR=_sw_output, size=1, right AOP_LIT=0x01, si
+                            ze=1
+                      01312 ;; ***  mov2w  1381  offset=0
+                      01313 ;; >>> /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:1386:mov2w
+                      01314 ;;      1009
+                      01315 ;;      1028  _sw_output   offset=0
+0111   ???? ????      01316         BANKSEL _sw_output
+0113   08??           01317         MOVF    _sw_output,W
+                      01318 ;; >>> /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:3685:genCmpEq
+0114   3A01           01319         XORLW   0x01
+                      01320 ;; >>> /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:3687:genCmpEq
+0115   1D03           01321         BTFSS   STATUS,2
+                      01322 ;; >>> /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:3690:genCmpEq
+                      01323 ;; ***  popGetLabel  key=7, label offset 8
+0116   2???           01324         GOTO    _00115_DS_
+                      01325 ;;; /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:2316:resultRemat *{*
+                      01326 ;;; /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:2316:resultRemat *{*
+                      01327 ;;; /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:6759:genIfx *{*
+                      01328 ;; ***  genIfx  6760
+                      01329 ;; ***  aopForSym 315
+                      01330 ;;      327 sym->rname = _current_SW_State, size = 1
+                      01331 ;; ***  pic14_toBoolean  1515
+                      01332 ;; >>> /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:1522:pic14_toBoolean
+                      01333         .line   38; "BlinkerLight.c"    if(current_SW_State == unpressed){
+0117   ???? ????      01334         BANKSEL _current_SW_State
+0119   08??           01335         MOVF    _current_SW_State,W
+gpasm-1.4.0 #1106 (Oct  6 2014) obj\Debug\Bli   10-29-2019  15:21:38        PAGE 27
+
+
+LOC    OBJECT CODE    LINE  SOURCE TEXT
+  VALUE
+
+011A   1D03           01336         BTFSS   STATUS,2
+                      01337 ;; >>> /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:6809:genIfx
+                      01338 ;; ***  popGetLabel  key=4, label offset 8
+011B   2???           01339         GOTO    _00112_DS_
+                      01340 ;;; /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:2316:resultRemat *{*
+                      01341 ;;; /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:6927:genAssign *{*
+                      01342 ;; ***  genAssign  6928
+                      01343 ;; ***  aopForSym 315
+                      01344 ;;      327 sym->rname = _current_SW_State, size = 1
+                      01345 ;;      line = 6937 result AOP_DIR=_current_SW_State, size=1, left -=-, size=0, right AOP_LIT=0x01, size
+                            =1
+                      01346 ;; ***  genAssign  7023
+                      01347 ;; >>> /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:7030:genAssign
+                      01348         .line   39; "BlinkerLight.c"    current_SW_State = O_Pressed;
+011C   3001           01349         MOVLW   0x01
+                      01350 ;; >>> /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:7032:genAssign
+                      01351 ;;      1009
+                      01352 ;;      1028  _current_SW_State   offset=0
+011D   00??           01353         MOVWF   _current_SW_State
+                      01354 ;;; /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:2316:resultRemat *{*
+                      01355 ;;; /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:2778:genGoto *{*
+                      01356 ;; >>> /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:2780:genGoto
+                      01357 ;; ***  popGetLabel  key=7, label offset 8
+011E   2???           01358         GOTO    _00115_DS_
+                      01359 ;;; /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:2316:resultRemat *{*
+                      01360 ;;; /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:2760:genLabel *{*
+                      01361 ;; ***  genLabel  2763
+                      01362 ;;; /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:2316:resultRemat *{*
+                      01363 ;;; /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:6927:genAssign *{*
+                      01364 ;; ***  genAssign  6928
+                      01365 ;; ***  aopForSym 315
+                      01366 ;;      327 sym->rname = _current_SW_State, size = 1
+                      01367 ;;      line = 6937 result AOP_DIR=_current_SW_State, size=1, left -=-, size=0, right AOP_LIT=0x00, size
+                            =1
+                      01368 ;; ***  genAssign  7023
+                      01369 ;; >>> /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:7035:genAssign
+                      01370 ;;      1009
+                      01371 ;;      1028  _current_SW_State   offset=0
+011F                  01372 _00112_DS_
+                      01373         .line   41; "BlinkerLight.c"    current_SW_State = unpressed;
+011F   ???? ????      01374         BANKSEL _current_SW_State
+0121   01??           01375         CLRF    _current_SW_State
+                      01376 ;;; /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:2316:resultRemat *{*
+                      01377 ;;; /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:2760:genLabel *{*
+                      01378 ;; ***  genLabel  2763
+                      01379 ;;; /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:2316:resultRemat *{*
+                      01380 ;;; /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:6927:genAssign *{*
+                      01381 ;; ***  genAssign  6928
+                      01382 ;; ***  aopForSym 315
+                      01383 ;;      327 sym->rname = _sw_output, size = 1
+                      01384 ;; ***  aopForSym 315
+                      01385 ;;      327 sym->rname = _sw_previous, size = 1
+                      01386 ;;      line = 6937 result AOP_DIR=_sw_previous, size=1, left -=-, size=0, right AOP_DIR=_sw_output, siz
+gpasm-1.4.0 #1106 (Oct  6 2014) obj\Debug\Bli   10-29-2019  15:21:38        PAGE 28
+
+
+LOC    OBJECT CODE    LINE  SOURCE TEXT
+  VALUE
+
+                            e=1
+                      01387 ;; ***  genAssign  7023
+                      01388 ;;; /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:1343:mov2w_op *{*
+                      01389 ;; ***  mov2w  1381  offset=0
+                      01390 ;; >>> /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:1386:mov2w
+                      01391 ;;      1009
+                      01392 ;;      1028  _sw_output   offset=0
+0122                  01393 _00115_DS_
+                      01394         .line   44; "BlinkerLight.c"    sw_previous = sw_output;
+0122   ???? ????      01395         BANKSEL _sw_output
+0124   08??           01396         MOVF    _sw_output,W
+                      01397 ;; >>> /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:7050:genAssign
+                      01398 ;;      1009
+                      01399 ;;      1028  _sw_previous   offset=0
+0125   ???? ????      01400         BANKSEL _sw_previous
+0127   00??           01401         MOVWF   _sw_previous
+                      01402 ;;; /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:2316:resultRemat *{*
+                      01403 ;;; /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:2316:resultRemat *{*
+                      01404 ;;; /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:2086:genCall *{*
+                      01405 ;; ***  genCall  2088
+                      01406 ;;; /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:1801:saveRegisters *{*
+                      01407 ;; ***  saveRegisters  1803
+                      01408 ;;      2135 left AOP_LIT
+                      01409 ;;; /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:1343:mov2w_op *{*
+                      01410 ;; >>> /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:1361:mov2w_op
+                      01411         .line   46; "BlinkerLight.c"    ADC_Update(CHANNEL_INPUT_1);
+0128   3001           01412         MOVLW   0x01
+                      01413 ;; >>> /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:2173:genCall
+0129   ???? ????      01414         PAGESEL _ADC_Update
+                      01415 ;; >>> /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:2175:genCall
+012B   2???           01416         CALL    _ADC_Update
+                      01417 ;; >>> /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:2181:genCall
+012C   ???? ????      01418         PAGESEL $
+                      01419 ;;; /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:1845:unsaveRegisters *{*
+                      01420 ;; ***  unsaveRegisters  1847
+                      01421 ;;; /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:2316:resultRemat *{*
+                      01422 ;;; /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:2316:resultRemat *{*
+                      01423 ;;; /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:7120:genCast *{*
+                      01424 ;; ***  genCast  7121
+                      01425 ;;      613
+                      01426 ;;      aopForRemat 392
+                      01427 ;;      418: rname _digital_Reading, val 0, const = 0
+                      01428 ;;      694 register type nRegs=3
+                      01429 ;;      833: aopGet AOP_PCODE type PO_IMMEDIATE
+                      01430 ;;      _digital_Reading
+                      01431 ;;      line = 7129 result AOP_REG=r0x104C, size=3, left -=-, size=0, right AOP_PCODE=_digital_Reading, 
+                            size=2
+                      01432 ;; ***  genCast  7174
+                      01433 ;;; /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:1343:mov2w_op *{*
+                      01434 ;; >>> /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:1361:mov2w_op
+                      01435         .line   47; "BlinkerLight.c"    ADC_Get(&digital_Reading);
+012E   30??           01436         MOVLW   high (_digital_Reading + 0)
+                      01437 ;; >>> /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:1393:movwf
+gpasm-1.4.0 #1106 (Oct  6 2014) obj\Debug\Bli   10-29-2019  15:21:38        PAGE 29
+
+
+LOC    OBJECT CODE    LINE  SOURCE TEXT
+  VALUE
+
+                      01438 ;;      1109 rIdx = r0x104D 
+012F   ???? ????      01439         BANKSEL r0x100D
+0131   00??           01440         MOVWF   r0x100D
+                      01441 ;;; /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:1343:mov2w_op *{*
+                      01442 ;; >>> /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:1361:mov2w_op
+0132   30??           01443         MOVLW   (_digital_Reading + 0)
+                      01444 ;; >>> /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:1393:movwf
+                      01445 ;;      1109 rIdx = r0x104C 
+0133   00??           01446         MOVWF   r0x100E
+                      01447 ;; >>> /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:7230:genCast
+                      01448 ;;      1109 rIdx = r0x104E 
+0134   01??           01449         CLRF    r0x100F
+                      01450 ;;; /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:2316:resultRemat *{*
+                      01451 ;;; /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:2316:resultRemat *{*
+                      01452 ;;; /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:2086:genCall *{*
+                      01453 ;; ***  genCall  2088
+                      01454 ;;; /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:1801:saveRegisters *{*
+                      01455 ;; ***  saveRegisters  1803
+                      01456 ;;      694 register type nRegs=3
+                      01457 ;;      694 register type nRegs=3
+                      01458 ;;      2135 left AOP_REG
+                      01459 ;;; /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:1343:mov2w_op *{*
+                      01460 ;; ***  mov2w  1381  offset=0
+                      01461 ;; >>> /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:1386:mov2w
+                      01462 ;;      1109 rIdx = r0x104C 
+0135   08??           01463         MOVF    r0x100E,W
+                      01464 ;;      2135 left AOP_REG
+                      01465 ;; >>> /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:2143:genCall
+                      01466 ;; ***  popRegFromIdx,1042  , rIdx=0x7e
+0136   00??           01467         MOVWF   STK01
+                      01468 ;;; /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:1343:mov2w_op *{*
+                      01469 ;; ***  mov2w  1381  offset=1
+                      01470 ;; >>> /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:1386:mov2w
+                      01471 ;;      1109 rIdx = r0x104D 
+0137   08??           01472         MOVF    r0x100D,W
+                      01473 ;;      2135 left AOP_REG
+                      01474 ;; >>> /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:2143:genCall
+                      01475 ;; ***  popRegFromIdx,1042  , rIdx=0x7f
+0138   00??           01476         MOVWF   STK00
+                      01477 ;;; /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:1343:mov2w_op *{*
+                      01478 ;; ***  mov2w  1381  offset=2
+                      01479 ;; >>> /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:1386:mov2w
+                      01480 ;;      1109 rIdx = r0x104E 
+0139   3000           01481         MOVLW   0x00
+                      01482 ;; >>> /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:2173:genCall
+013A   ???? ????      01483         PAGESEL _ADC_Get
+                      01484 ;; >>> /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:2175:genCall
+013C   2???           01485         CALL    _ADC_Get
+                      01486 ;; >>> /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:2181:genCall
+013D   ???? ????      01487         PAGESEL $
+                      01488 ;;; /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:1845:unsaveRegisters *{*
+                      01489 ;; ***  unsaveRegisters  1847
+                      01490 ;;; /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:2316:resultRemat *{*
+gpasm-1.4.0 #1106 (Oct  6 2014) obj\Debug\Bli   10-29-2019  15:21:38        PAGE 30
+
+
+LOC    OBJECT CODE    LINE  SOURCE TEXT
+  VALUE
+
+                      01491 ;;; /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:3619:genCmpEq *{*
+                      01492 ;; ***  genCmpEq  3620
+                      01493 ;; ifx is non-null
+                      01494 ;; ***  aopForSym 315
+                      01495 ;;      327 sym->rname = _current_SW_State, size = 1
+                      01496 ;;      line = 3631 result AOP_CRY=0x00, size=0, left AOP_DIR=_current_SW_State, size=1, right AOP_LIT=0
+                            x01, size=1
+                      01497 ;; ***  mov2w  1381  offset=0
+                      01498 ;; >>> /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:1386:mov2w
+                      01499 ;;      1009
+                      01500 ;;      1028  _current_SW_State   offset=0
+                      01501         .line   50; "BlinkerLight.c"    if(current_SW_State == O_Pressed)
+013F   ???? ????      01502         BANKSEL _current_SW_State
+0141   08??           01503         MOVF    _current_SW_State,W
+                      01504 ;; >>> /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:3685:genCmpEq
+0142   3A01           01505         XORLW   0x01
+                      01506 ;; >>> /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:3687:genCmpEq
+0143   1D03           01507         BTFSS   STATUS,2
+                      01508 ;; >>> /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:3690:genCmpEq
+                      01509 ;; ***  popGetLabel  key=18, label offset 8
+0144   2???           01510         GOTO    _00126_DS_
+                      01511 ;;; /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:2316:resultRemat *{*
+                      01512 ;;; /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:2316:resultRemat *{*
+                      01513 ;;; /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:2316:resultRemat *{*
+                      01514 ;;; /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:2316:resultRemat *{*
+                      01515 ;;; /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:2086:genCall *{*
+                      01516 ;; ***  genCall  2088
+                      01517 ;;; /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:1801:saveRegisters *{*
+                      01518 ;; ***  saveRegisters  1803
+                      01519 ;;      2135 left AOP_LIT
+                      01520 ;;; /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:1343:mov2w_op *{*
+                      01521 ;; >>> /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:1361:mov2w_op
+                      01522         .line   53; "BlinkerLight.c"    Light_Toggle(LEFT_ON, RIGHT_ON);
+0145   3001           01523         MOVLW   0x01
+                      01524 ;;      2135 left AOP_LIT
+                      01525 ;; >>> /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:2143:genCall
+                      01526 ;; ***  popRegFromIdx,1042  , rIdx=0x7f
+0146   00??           01527         MOVWF   STK00
+                      01528 ;;; /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:1343:mov2w_op *{*
+                      01529 ;; >>> /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:1361:mov2w_op
+0147   3001           01530         MOVLW   0x01
+                      01531 ;; >>> /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:2175:genCall
+0148   2???           01532         CALL    _Light_Toggle
+                      01533 ;;; /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:1845:unsaveRegisters *{*
+                      01534 ;; ***  unsaveRegisters  1847
+                      01535 ;;; /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:2316:resultRemat *{*
+                      01536 ;;; /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:2778:genGoto *{*
+                      01537 ;; >>> /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:2780:genGoto
+                      01538 ;; ***  popGetLabel  key=20, label offset 8
+0149   2???           01539         GOTO    _00128_DS_
+                      01540 ;;; /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:2316:resultRemat *{*
+                      01541 ;;; /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:2760:genLabel *{*
+                      01542 ;; ***  genLabel  2763
+gpasm-1.4.0 #1106 (Oct  6 2014) obj\Debug\Bli   10-29-2019  15:21:38        PAGE 31
+
+
+LOC    OBJECT CODE    LINE  SOURCE TEXT
+  VALUE
+
+                      01543 ;;; /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:2316:resultRemat *{*
+                      01544 ;;; /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:3583:genCmpLt *{*
+                      01545 ;; ***  genCmpLt  3584
+                      01546 ;; ***  aopForSym 315
+                      01547 ;;      327 sym->rname = _digital_Reading, size = 2
+                      01548 ;;; /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:3294:genCmp *{*
+                      01549 ;;unsigned compare: left < lit(0x400=1024), size=2
+                      01550 ;; >>> /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:3265:pic14_mov2w_regOrLit
+014A                  01551 _00126_DS_
+                      01552         .line   59; "BlinkerLight.c"    if((digital_Reading < 1024) && (digital_Reading > 682)){
+014A   3004           01553         MOVLW   0x04
+                      01554 ;; >>> /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:3432:genCmp
+                      01555 ;;      1009
+                      01556 ;;      1028  _digital_Reading   offset=1
+014B   ???? ????      01557         BANKSEL _digital_Reading
+014D   02??           01558         SUBWF   (_digital_Reading + 1),W
+                      01559 ;; >>> /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:3477:genCmp
+014E   1D03           01560         BTFSS   STATUS,2
+                      01561 ;; >>> /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:3478:genCmp
+                      01562 ;; ***  popGetLabel  key=50, label offset 8
+014F   2???           01563         GOTO    _00158_DS_
+                      01564 ;; >>> /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:3265:pic14_mov2w_regOrLit
+0150   3000           01565         MOVLW   0x00
+                      01566 ;; >>> /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:3480:genCmp
+                      01567 ;;      1009
+                      01568 ;;      1028  _digital_Reading   offset=0
+0151   02??           01569         SUBWF   _digital_Reading,W
+                      01570 ;;; /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:3237:genSkipc *{*
+                      01571 ;; >>> /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:3242:genSkipc
+0152                  01572 _00158_DS_
+0152   1803           01573         BTFSC   STATUS,0
+                      01574 ;; >>> /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:3246:genSkipc
+                      01575 ;; ***  popGetLabel  key=14, label offset 8
+0153   2???           01576         GOTO    _00122_DS_
+                      01577 ;;genSkipc:3247: created from rifx:027A5DF4
+                      01578 ;;; /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:2316:resultRemat *{*
+                      01579 ;;; /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:2316:resultRemat *{*
+                      01580 ;;; /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:3547:genCmpGt *{*
+                      01581 ;; ***  genCmpGt  3548
+                      01582 ;; ***  aopForSym 315
+                      01583 ;;      327 sym->rname = _digital_Reading, size = 2
+                      01584 ;;; /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:3294:genCmp *{*
+                      01585 ;;swapping arguments (AOP_TYPEs 1/3)
+                      01586 ;;unsigned compare: left >= lit(0x2AB=683), size=2
+                      01587 ;; >>> /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:3265:pic14_mov2w_regOrLit
+0154   3002           01588         MOVLW   0x02
+                      01589 ;; >>> /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:3432:genCmp
+                      01590 ;;      1009
+                      01591 ;;      1028  _digital_Reading   offset=1
+0155   ???? ????      01592         BANKSEL _digital_Reading
+0157   02??           01593         SUBWF   (_digital_Reading + 1),W
+                      01594 ;; >>> /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:3477:genCmp
+0158   1D03           01595         BTFSS   STATUS,2
+gpasm-1.4.0 #1106 (Oct  6 2014) obj\Debug\Bli   10-29-2019  15:21:38        PAGE 32
+
+
+LOC    OBJECT CODE    LINE  SOURCE TEXT
+  VALUE
+
+                      01596 ;; >>> /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:3478:genCmp
+                      01597 ;; ***  popGetLabel  key=51, label offset 8
+0159   2???           01598         GOTO    _00159_DS_
+                      01599 ;; >>> /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:3265:pic14_mov2w_regOrLit
+015A   30AB           01600         MOVLW   0xab
+                      01601 ;; >>> /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:3480:genCmp
+                      01602 ;;      1009
+                      01603 ;;      1028  _digital_Reading   offset=0
+015B   02??           01604         SUBWF   _digital_Reading,W
+                      01605 ;;; /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:3237:genSkipc *{*
+                      01606 ;; >>> /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:3244:genSkipc
+015C                  01607 _00159_DS_
+015C   1C03           01608         BTFSS   STATUS,0
+                      01609 ;; >>> /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:3246:genSkipc
+                      01610 ;; ***  popGetLabel  key=14, label offset 8
+015D   2???           01611         GOTO    _00122_DS_
+                      01612 ;;genSkipc:3247: created from rifx:027A5DF4
+                      01613 ;;; /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:2316:resultRemat *{*
+                      01614 ;;; /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:2316:resultRemat *{*
+                      01615 ;;; /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:2316:resultRemat *{*
+                      01616 ;;; /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:2316:resultRemat *{*
+                      01617 ;;; /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:2086:genCall *{*
+                      01618 ;; ***  genCall  2088
+                      01619 ;;; /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:1801:saveRegisters *{*
+                      01620 ;; ***  saveRegisters  1803
+                      01621 ;;      2135 left AOP_LIT
+                      01622 ;;; /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:1343:mov2w_op *{*
+                      01623 ;; >>> /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:1361:mov2w_op
+                      01624         .line   61; "BlinkerLight.c"    Light_Toggle(LEFT_OFF, RIGHT_ON);
+015E   3001           01625         MOVLW   0x01
+                      01626 ;;      2135 left AOP_LIT
+                      01627 ;; >>> /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:2143:genCall
+                      01628 ;; ***  popRegFromIdx,1042  , rIdx=0x7f
+015F   00??           01629         MOVWF   STK00
+                      01630 ;;; /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:1343:mov2w_op *{*
+                      01631 ;; >>> /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:1361:mov2w_op
+0160   3000           01632         MOVLW   0x00
+                      01633 ;; >>> /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:2175:genCall
+0161   2???           01634         CALL    _Light_Toggle
+                      01635 ;;; /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:1845:unsaveRegisters *{*
+                      01636 ;; ***  unsaveRegisters  1847
+                      01637 ;;; /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:2316:resultRemat *{*
+                      01638 ;;; /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:2778:genGoto *{*
+                      01639 ;; >>> /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:2780:genGoto
+                      01640 ;; ***  popGetLabel  key=20, label offset 8
+0162   2???           01641         GOTO    _00128_DS_
+                      01642 ;;; /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:2316:resultRemat *{*
+                      01643 ;;; /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:2760:genLabel *{*
+                      01644 ;; ***  genLabel  2763
+                      01645 ;;; /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:2316:resultRemat *{*
+                      01646 ;;; /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:3547:genCmpGt *{*
+                      01647 ;; ***  genCmpGt  3548
+                      01648 ;; ***  aopForSym 315
+gpasm-1.4.0 #1106 (Oct  6 2014) obj\Debug\Bli   10-29-2019  15:21:38        PAGE 33
+
+
+LOC    OBJECT CODE    LINE  SOURCE TEXT
+  VALUE
+
+                      01649 ;;      327 sym->rname = _digital_Reading, size = 2
+                      01650 ;;; /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:3294:genCmp *{*
+                      01651 ;;swapping arguments (AOP_TYPEs 1/3)
+                      01652 ;;unsigned compare: left >= lit(0x2AB=683), size=2
+                      01653 ;; >>> /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:3265:pic14_mov2w_regOrLit
+0163                  01654 _00122_DS_
+                      01655         .line   66; "BlinkerLight.c"    else if((digital_Reading <= 682) && (digital_Reading > 341)){
+0163   3002           01656         MOVLW   0x02
+                      01657 ;; >>> /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:3432:genCmp
+                      01658 ;;      1009
+                      01659 ;;      1028  _digital_Reading   offset=1
+0164   ???? ????      01660         BANKSEL _digital_Reading
+0166   02??           01661         SUBWF   (_digital_Reading + 1),W
+                      01662 ;; >>> /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:3477:genCmp
+0167   1D03           01663         BTFSS   STATUS,2
+                      01664 ;; >>> /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:3478:genCmp
+                      01665 ;; ***  popGetLabel  key=52, label offset 8
+0168   2???           01666         GOTO    _00160_DS_
+                      01667 ;; >>> /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:3265:pic14_mov2w_regOrLit
+0169   30AB           01668         MOVLW   0xab
+                      01669 ;; >>> /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:3480:genCmp
+                      01670 ;;      1009
+                      01671 ;;      1028  _digital_Reading   offset=0
+016A   02??           01672         SUBWF   _digital_Reading,W
+                      01673 ;;; /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:3237:genSkipc *{*
+                      01674 ;; >>> /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:3242:genSkipc
+016B                  01675 _00160_DS_
+016B   1803           01676         BTFSC   STATUS,0
+                      01677 ;; >>> /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:3246:genSkipc
+                      01678 ;; ***  popGetLabel  key=10, label offset 8
+016C   2???           01679         GOTO    _00118_DS_
+                      01680 ;;genSkipc:3247: created from rifx:027A5DF4
+                      01681 ;;; /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:2316:resultRemat *{*
+                      01682 ;;; /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:2316:resultRemat *{*
+                      01683 ;;; /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:3547:genCmpGt *{*
+                      01684 ;; ***  genCmpGt  3548
+                      01685 ;; ***  aopForSym 315
+                      01686 ;;      327 sym->rname = _digital_Reading, size = 2
+                      01687 ;;; /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:3294:genCmp *{*
+                      01688 ;;swapping arguments (AOP_TYPEs 1/3)
+                      01689 ;;unsigned compare: left >= lit(0x156=342), size=2
+                      01690 ;; >>> /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:3265:pic14_mov2w_regOrLit
+016D   3001           01691         MOVLW   0x01
+                      01692 ;; >>> /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:3432:genCmp
+                      01693 ;;      1009
+                      01694 ;;      1028  _digital_Reading   offset=1
+016E   ???? ????      01695         BANKSEL _digital_Reading
+0170   02??           01696         SUBWF   (_digital_Reading + 1),W
+                      01697 ;; >>> /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:3477:genCmp
+0171   1D03           01698         BTFSS   STATUS,2
+                      01699 ;; >>> /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:3478:genCmp
+                      01700 ;; ***  popGetLabel  key=53, label offset 8
+0172   2???           01701         GOTO    _00161_DS_
+gpasm-1.4.0 #1106 (Oct  6 2014) obj\Debug\Bli   10-29-2019  15:21:38        PAGE 34
+
+
+LOC    OBJECT CODE    LINE  SOURCE TEXT
+  VALUE
+
+                      01702 ;; >>> /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:3265:pic14_mov2w_regOrLit
+0173   3056           01703         MOVLW   0x56
+                      01704 ;; >>> /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:3480:genCmp
+                      01705 ;;      1009
+                      01706 ;;      1028  _digital_Reading   offset=0
+0174   02??           01707         SUBWF   _digital_Reading,W
+                      01708 ;;; /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:3237:genSkipc *{*
+                      01709 ;; >>> /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:3244:genSkipc
+0175                  01710 _00161_DS_
+0175   1C03           01711         BTFSS   STATUS,0
+                      01712 ;; >>> /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:3246:genSkipc
+                      01713 ;; ***  popGetLabel  key=10, label offset 8
+0176   2???           01714         GOTO    _00118_DS_
+                      01715 ;;genSkipc:3247: created from rifx:027A5DF4
+                      01716 ;;; /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:2316:resultRemat *{*
+                      01717 ;;; /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:2316:resultRemat *{*
+                      01718 ;;; /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:7120:genCast *{*
+                      01719 ;; ***  genCast  7121
+                      01720 ;; ***  aopForSym 315
+                      01721 ;;      327 sym->rname = _PORTB, size = 1
+                      01722 ;;      694 register type nRegs=1
+                      01723 ;;      line = 7129 result AOP_REG=r0x104C, size=1, left -=-, size=0, right AOP_DIR=_PORTB, size=1
+                      01724 ;; ***  genCast  7253
+                      01725 ;; >>> /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:7277:genCast
+                      01726 ;;      1009
+                      01727 ;;      1028  _PORTB   offset=0
+                      01728         .line   68; "BlinkerLight.c"    GPIO_WritePortPin(GPIO_PORTB_DATA, GPIO_PIN_2, RIGHT_OFF);
+0177   ???? ????      01729         BANKSEL _PORTB
+0179   08??           01730         MOVF    _PORTB,W
+                      01731 ;; >>> /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:7278:genCast
+                      01732 ;;      1109 rIdx = r0x104C 
+017A   ???? ????      01733         BANKSEL r0x100E
+017C   00??           01734         MOVWF   r0x100E
+                      01735 ;;; /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:2316:resultRemat *{*
+                      01736 ;;; /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:3919:genAnd *{*
+                      01737 ;; ***  genAnd  3920
+                      01738 ;;      694 register type nRegs=1
+                      01739 ;; ***  aopForSym 315
+                      01740 ;;      327 sym->rname = _PORTB, size = 1
+                      01741 ;;      line = 3955 result AOP_DIR=_PORTB, size=1, left AOP_REG=r0x104C, size=1, right AOP_LIT=0xfb, siz
+                            e=1
+                      01742 ;; >>> /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:4190:genAnd
+017D   30FB           01743         MOVLW   0xfb
+                      01744 ;; >>> /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:4191:genAnd
+                      01745 ;;      1109 rIdx = r0x104C 
+017E   05??           01746         ANDWF   r0x100E,W
+                      01747 ;; >>> /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:4192:genAnd
+                      01748 ;;      1009
+                      01749 ;;      1028  _PORTB   offset=0
+017F   ???? ????      01750         BANKSEL _PORTB
+0181   00??           01751         MOVWF   _PORTB
+                      01752 ;;; /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:2316:resultRemat *{*
+                      01753 ;;; /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:7120:genCast *{*
+gpasm-1.4.0 #1106 (Oct  6 2014) obj\Debug\Bli   10-29-2019  15:21:38        PAGE 35
+
+
+LOC    OBJECT CODE    LINE  SOURCE TEXT
+  VALUE
+
+                      01754 ;; ***  genCast  7121
+                      01755 ;; ***  aopForSym 315
+                      01756 ;;      327 sym->rname = _PORTB, size = 1
+                      01757 ;;      694 register type nRegs=1
+                      01758 ;;      line = 7129 result AOP_REG=r0x104C, size=1, left -=-, size=0, right AOP_DIR=_PORTB, size=1
+                      01759 ;; ***  genCast  7253
+                      01760 ;; >>> /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:7277:genCast
+                      01761 ;;      1009
+                      01762 ;;      1028  _PORTB   offset=0
+                      01763         .line   70; "BlinkerLight.c"    GPIO_WritePortPin(GPIO_PORTB_DATA, GPIO_PIN_3, LEFT_OFF);
+0182   08??           01764         MOVF    _PORTB,W
+                      01765 ;; >>> /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:7278:genCast
+                      01766 ;;      1109 rIdx = r0x104C 
+0183   ???? ????      01767         BANKSEL r0x100E
+0185   00??           01768         MOVWF   r0x100E
+                      01769 ;;; /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:2316:resultRemat *{*
+                      01770 ;;; /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:3919:genAnd *{*
+                      01771 ;; ***  genAnd  3920
+                      01772 ;;      694 register type nRegs=1
+                      01773 ;; ***  aopForSym 315
+                      01774 ;;      327 sym->rname = _PORTB, size = 1
+                      01775 ;;      line = 3955 result AOP_DIR=_PORTB, size=1, left AOP_REG=r0x104C, size=1, right AOP_LIT=0xf7, siz
+                            e=1
+                      01776 ;; >>> /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:4190:genAnd
+0186   30F7           01777         MOVLW   0xf7
+                      01778 ;; >>> /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:4191:genAnd
+                      01779 ;;      1109 rIdx = r0x104C 
+0187   05??           01780         ANDWF   r0x100E,W
+                      01781 ;; >>> /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:4192:genAnd
+                      01782 ;;      1009
+                      01783 ;;      1028  _PORTB   offset=0
+0188   ???? ????      01784         BANKSEL _PORTB
+018A   00??           01785         MOVWF   _PORTB
+                      01786 ;;; /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:2316:resultRemat *{*
+                      01787 ;;; /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:2778:genGoto *{*
+                      01788 ;; >>> /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:2780:genGoto
+                      01789 ;; ***  popGetLabel  key=20, label offset 8
+018B   2???           01790         GOTO    _00128_DS_
+                      01791 ;;; /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:2316:resultRemat *{*
+                      01792 ;;; /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:2760:genLabel *{*
+                      01793 ;; ***  genLabel  2763
+                      01794 ;;; /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:2316:resultRemat *{*
+                      01795 ;;; /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:2316:resultRemat *{*
+                      01796 ;;; /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:2316:resultRemat *{*
+                      01797 ;;; /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:2086:genCall *{*
+                      01798 ;; ***  genCall  2088
+                      01799 ;;; /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:1801:saveRegisters *{*
+                      01800 ;; ***  saveRegisters  1803
+                      01801 ;;      2135 left AOP_LIT
+                      01802 ;;; /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:1343:mov2w_op *{*
+                      01803 ;; >>> /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:1361:mov2w_op
+018C                  01804 _00118_DS_
+                      01805         .line   75; "BlinkerLight.c"    Light_Toggle(LEFT_ON, RIGHT_OFF);
+gpasm-1.4.0 #1106 (Oct  6 2014) obj\Debug\Bli   10-29-2019  15:21:38        PAGE 36
+
+
+LOC    OBJECT CODE    LINE  SOURCE TEXT
+  VALUE
+
+018C   3000           01806         MOVLW   0x00
+                      01807 ;;      2135 left AOP_LIT
+                      01808 ;; >>> /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:2143:genCall
+                      01809 ;; ***  popRegFromIdx,1042  , rIdx=0x7f
+018D   00??           01810         MOVWF   STK00
+                      01811 ;;; /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:1343:mov2w_op *{*
+                      01812 ;; >>> /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:1361:mov2w_op
+018E   3001           01813         MOVLW   0x01
+                      01814 ;; >>> /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:2175:genCall
+018F   2???           01815         CALL    _Light_Toggle
+                      01816 ;;; /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:1845:unsaveRegisters *{*
+                      01817 ;; ***  unsaveRegisters  1847
+                      01818 ;;; /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:2316:resultRemat *{*
+                      01819 ;;; /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:2760:genLabel *{*
+                      01820 ;; ***  genLabel  2763
+                      01821 ;;; /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:2316:resultRemat *{*
+                      01822 ;;; /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:2528:genEndFunction *{*
+                      01823 ;; ***  genEndFunction  2530
+0190                  01824 _00128_DS_
+0190   0008           01825         RETURN  
+                      01826 ; exit point of _Blinker_Light_Update
+                      01827 ;;; /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:7426:genpic14Code *{*
+                      01828 
+                      01829 ;***
+                      01830 ;  pBlock Stats: dbName = C
+                      01831 ;***
+                      01832 ;entry:  _Blinker_Light_Init    ;Function start
+                      01833 ; 2 exit points
+                      01834 ;has an exit
+                      01835 ;functions called:
+                      01836 ;   _ADC_Init
+                      01837 ;   _SW_Init
+                      01838 ;   _ADC_Init
+                      01839 ;   _SW_Init
+                      01840 ;1 compiler assigned register :
+                      01841 ;   r0x1010
+                      01842 ;; Starting pCode block
+                      01843 ;;; /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:2316:resultRemat *{*
+                      01844 ;;; /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:2760:genLabel *{*
+                      01845 ;; ***  genLabel  2763
+                      01846 ;;; /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:2316:resultRemat *{*
+                      01847 ;;; /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:2340:genFunction *{*
+                      01848 ;; ***  genFunction  2342 curr label offset=0previous max_key=0 
+0191                  01849 _Blinker_Light_Init     ;Function start
+                      01850 ; 2 exit points
+                      01851 ;;; /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:2316:resultRemat *{*
+                      01852 ;;; /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:7120:genCast *{*
+                      01853 ;; ***  genCast  7121
+                      01854 ;; ***  aopForSym 315
+                      01855 ;;      327 sym->rname = _TRISB, size = 1
+                      01856 ;;      694 register type nRegs=1
+                      01857 ;;      line = 7129 result AOP_REG=r0x1048, size=1, left -=-, size=0, right AOP_DIR=_TRISB, size=1
+                      01858 ;; ***  genCast  7253
+gpasm-1.4.0 #1106 (Oct  6 2014) obj\Debug\Bli   10-29-2019  15:21:38        PAGE 37
+
+
+LOC    OBJECT CODE    LINE  SOURCE TEXT
+  VALUE
+
+                      01859 ;; >>> /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:7277:genCast
+                      01860 ;;      1009
+                      01861 ;;      1028  _TRISB   offset=0
+                      01862         .line   17; "BlinkerLight.c"    GPIO_InitPortPin(GPIO_PORTB_CONTROL, GPIO_PIN_2, GPIO_OUT);
+0191   ???? ????      01863         BANKSEL _TRISB
+0193   08??           01864         MOVF    _TRISB,W
+                      01865 ;; >>> /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:7278:genCast
+                      01866 ;;      1109 rIdx = r0x1048 
+0194   ???? ????      01867         BANKSEL r0x1010
+0196   00??           01868         MOVWF   r0x1010
+                      01869 ;;; /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:2316:resultRemat *{*
+                      01870 ;;; /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:3919:genAnd *{*
+                      01871 ;; ***  genAnd  3920
+                      01872 ;;      694 register type nRegs=1
+                      01873 ;; ***  aopForSym 315
+                      01874 ;;      327 sym->rname = _TRISB, size = 1
+                      01875 ;;      line = 3955 result AOP_DIR=_TRISB, size=1, left AOP_REG=r0x1048, size=1, right AOP_LIT=0xfb, siz
+                            e=1
+                      01876 ;; >>> /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:4190:genAnd
+0197   30FB           01877         MOVLW   0xfb
+                      01878 ;; >>> /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:4191:genAnd
+                      01879 ;;      1109 rIdx = r0x1048 
+0198   05??           01880         ANDWF   r0x1010,W
+                      01881 ;; >>> /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:4192:genAnd
+                      01882 ;;      1009
+                      01883 ;;      1028  _TRISB   offset=0
+0199   ???? ????      01884         BANKSEL _TRISB
+019B   00??           01885         MOVWF   _TRISB
+                      01886 ;;; /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:2316:resultRemat *{*
+                      01887 ;;; /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:7120:genCast *{*
+                      01888 ;; ***  genCast  7121
+                      01889 ;; ***  aopForSym 315
+                      01890 ;;      327 sym->rname = _TRISB, size = 1
+                      01891 ;;      694 register type nRegs=1
+                      01892 ;;      line = 7129 result AOP_REG=r0x1048, size=1, left -=-, size=0, right AOP_DIR=_TRISB, size=1
+                      01893 ;; ***  genCast  7253
+                      01894 ;; >>> /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:7277:genCast
+                      01895 ;;      1009
+                      01896 ;;      1028  _TRISB   offset=0
+                      01897         .line   18; "BlinkerLight.c"    GPIO_InitPortPin(GPIO_PORTB_CONTROL, GPIO_PIN_3, GPIO_OUT);
+019C   08??           01898         MOVF    _TRISB,W
+                      01899 ;; >>> /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:7278:genCast
+                      01900 ;;      1109 rIdx = r0x1048 
+019D   ???? ????      01901         BANKSEL r0x1010
+019F   00??           01902         MOVWF   r0x1010
+                      01903 ;;; /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:2316:resultRemat *{*
+                      01904 ;;; /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:3919:genAnd *{*
+                      01905 ;; ***  genAnd  3920
+                      01906 ;;      694 register type nRegs=1
+                      01907 ;; ***  aopForSym 315
+                      01908 ;;      327 sym->rname = _TRISB, size = 1
+                      01909 ;;      line = 3955 result AOP_DIR=_TRISB, size=1, left AOP_REG=r0x1048, size=1, right AOP_LIT=0xf7, siz
+                            e=1
+gpasm-1.4.0 #1106 (Oct  6 2014) obj\Debug\Bli   10-29-2019  15:21:38        PAGE 38
+
+
+LOC    OBJECT CODE    LINE  SOURCE TEXT
+  VALUE
+
+                      01910 ;; >>> /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:4190:genAnd
+01A0   30F7           01911         MOVLW   0xf7
+                      01912 ;; >>> /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:4191:genAnd
+                      01913 ;;      1109 rIdx = r0x1048 
+01A1   05??           01914         ANDWF   r0x1010,W
+                      01915 ;; >>> /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:4192:genAnd
+                      01916 ;;      1009
+                      01917 ;;      1028  _TRISB   offset=0
+01A2   ???? ????      01918         BANKSEL _TRISB
+01A4   00??           01919         MOVWF   _TRISB
+                      01920 ;;; /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:2316:resultRemat *{*
+                      01921 ;;; /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:2086:genCall *{*
+                      01922 ;; ***  genCall  2088
+                      01923 ;;; /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:1801:saveRegisters *{*
+                      01924 ;; ***  saveRegisters  1803
+                      01925 ;; >>> /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:2173:genCall
+                      01926         .line   20; "BlinkerLight.c"    ADC_Init();
+01A5   ???? ????      01927         PAGESEL _ADC_Init
+                      01928 ;; >>> /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:2175:genCall
+01A7   2???           01929         CALL    _ADC_Init
+                      01930 ;; >>> /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:2181:genCall
+01A8   ???? ????      01931         PAGESEL $
+                      01932 ;;; /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:1845:unsaveRegisters *{*
+                      01933 ;; ***  unsaveRegisters  1847
+                      01934 ;;; /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:2316:resultRemat *{*
+                      01935 ;;; /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:2086:genCall *{*
+                      01936 ;; ***  genCall  2088
+                      01937 ;;; /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:1801:saveRegisters *{*
+                      01938 ;; ***  saveRegisters  1803
+                      01939 ;; >>> /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:2173:genCall
+                      01940         .line   21; "BlinkerLight.c"    SW_Init();
+01AA   ???? ????      01941         PAGESEL _SW_Init
+                      01942 ;; >>> /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:2175:genCall
+01AC   2???           01943         CALL    _SW_Init
+                      01944 ;; >>> /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:2181:genCall
+01AD   ???? ????      01945         PAGESEL $
+                      01946 ;;; /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:1845:unsaveRegisters *{*
+                      01947 ;; ***  unsaveRegisters  1847
+                      01948 ;;; /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:2316:resultRemat *{*
+                      01949 ;;; /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:2760:genLabel *{*
+                      01950 ;; ***  genLabel  2763
+                      01951 ;;; /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:2316:resultRemat *{*
+                      01952 ;;; /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:2528:genEndFunction *{*
+                      01953 ;; ***  genEndFunction  2530
+01AF   0008           01954         RETURN  
+                      01955 ; exit point of _Blinker_Light_Init
+                      01956 ;;; /home/sdcc-builder/build/sdcc-build/orig/sdcc/src/pic14/gen.c:7426:genpic14Code *{*
+                      01957 
+                      01958 
+                      01959 ;       code size estimation:
+                      01960 ;         276+   78 =   354 instructions (  864 byte)
+                      01961 
+                      01962         end
+gpasm-1.4.0 #1106 (Oct  6 2014) obj\Debug\Bli   10-29-2019  15:21:38        PAGE 39
+
+
+SYMBOL TABLE
+  LABEL                             VALUE
+
+ACKDT                             00000005
+ACKEN                             00000004
+ACKSTAT                           00000006
+ADCON0                            0000001F
+ADCON1                            0000009F
+ADCS0                             00000006
+ADCS1                             00000007
+ADCS2                             00000006
+ADDEN                             00000003
+ADFM                              00000007
+ADIE                              00000006
+ADIF                              00000006
+ADON                              00000000
+ADRESH                            0000001E
+ADRESL                            0000009E
+BCLIE                             00000003
+BCLIF                             00000003
+BF                                00000000
+BRGH                              00000002
+C                                 00000000
+C1INV                             00000004
+C1OUT                             00000006
+C2INV                             00000005
+C2OUT                             00000007
+CCP1CON                           00000017
+CCP1IE                            00000002
+CCP1IF                            00000002
+CCP1M0                            00000000
+CCP1M1                            00000001
+CCP1M2                            00000002
+CCP1M3                            00000003
+CCP1X                             00000005
+CCP1Y                             00000004
+CCP2CON                           0000001D
+CCP2IE                            00000000
+CCP2IF                            00000000
+CCP2M0                            00000000
+CCP2M1                            00000001
+CCP2M2                            00000002
+CCP2M3                            00000003
+CCP2X                             00000005
+CCP2Y                             00000004
+CCPR1                             00000015
+CCPR1H                            00000016
+CCPR1L                            00000015
+CCPR2                             0000001B
+CCPR2H                            0000001C
+CCPR2L                            0000001B
+CHS0                              00000003
+CHS1                              00000004
+CHS2                              00000005
+CIS                               00000003
+CKE                               00000006
+gpasm-1.4.0 #1106 (Oct  6 2014) obj\Debug\Bli   10-29-2019  15:21:38        PAGE 40
+
+
+SYMBOL TABLE
+  LABEL                             VALUE 
+
+CKP                               00000004
+CM0                               00000000
+CM1                               00000001
+CM2                               00000002
+CMCON                             0000009C
+CMIE                              00000006
+CMIF                              00000006
+CREN                              00000004
+CSRC                              00000007
+CVR0                              00000000
+CVR1                              00000001
+CVR2                              00000002
+CVR3                              00000003
+CVRCON                            0000009D
+CVREN                             00000007
+CVROE                             00000006
+CVRR                              00000005
+D                                 00000005
+DATA_ADDRESS                      00000005
+DC                                00000001
+D_A                               00000005
+D_NOT_A                           00000005
+EEADR                             0000010D
+EEADRH                            0000010F
+EECON1                            0000018C
+EECON2                            0000018D
+EEDATA                            0000010C
+EEDATH                            0000010E
+EEIE                              00000004
+EEIF                              00000004
+EEPGD                             00000007
+F                                 00000001
+FERR                              00000002
+FSR                               00000004
+GCEN                              00000007
+GIE                               00000007
+GO                                00000002
+GO_DONE                           00000002
+GO_NOT_DONE                       00000002
+I2C_DATA                          00000005
+I2C_READ                          00000002
+I2C_START                         00000003
+I2C_STOP                          00000004
+IBF                               00000007
+IBOV                              00000005
+INDF                              00000000
+INTCON                            0000000B
+INTE                              00000004
+INTEDG                            00000006
+INTF                              00000001
+IRP                               00000007
+NOT_A                             00000005
+NOT_ADDRESS                       00000005
+gpasm-1.4.0 #1106 (Oct  6 2014) obj\Debug\Bli   10-29-2019  15:21:38        PAGE 41
+
+
+SYMBOL TABLE
+  LABEL                             VALUE 
+
+NOT_BO                            00000000
+NOT_BOR                           00000000
+NOT_DONE                          00000002
+NOT_PD                            00000003
+NOT_POR                           00000001
+NOT_RBPU                          00000007
+NOT_RC8                           00000006
+NOT_T1SYNC                        00000002
+NOT_TO                            00000004
+NOT_TX8                           00000006
+NOT_W                             00000002
+NOT_WRITE                         00000002
+OBF                               00000006
+OERR                              00000001
+OPTION_REG                        00000081
+P                                 00000004
+PCFG0                             00000000
+PCFG1                             00000001
+PCFG2                             00000002
+PCFG3                             00000003
+PCL                               00000002
+PCLATH                            0000000A
+PCON                              0000008E
+PEIE                              00000006
+PEN                               00000002
+PIE1                              0000008C
+PIE2                              0000008D
+PIR1                              0000000C
+PIR2                              0000000D
+PORTA                             00000005
+PORTB                             00000006
+PORTC                             00000007
+PORTD                             00000008
+PORTE                             00000009
+PR2                               00000092
+PS0                               00000000
+PS1                               00000001
+PS2                               00000002
+PSA                               00000003
+PSAVE                             00000000
+PSPIE                             00000007
+PSPIF                             00000007
+PSPMODE                           00000004
+R                                 00000002
+RA0                               00000000
+RA1                               00000001
+RA2                               00000002
+RA3                               00000003
+RA4                               00000004
+RA5                               00000005
+RB0                               00000000
+RB1                               00000001
+RB2                               00000002
+gpasm-1.4.0 #1106 (Oct  6 2014) obj\Debug\Bli   10-29-2019  15:21:38        PAGE 42
+
+
+SYMBOL TABLE
+  LABEL                             VALUE 
+
+RB3                               00000003
+RB4                               00000004
+RB5                               00000005
+RB6                               00000006
+RB7                               00000007
+RBIE                              00000003
+RBIF                              00000000
+RC0                               00000000
+RC1                               00000001
+RC2                               00000002
+RC3                               00000003
+RC4                               00000004
+RC5                               00000005
+RC6                               00000006
+RC7                               00000007
+RC8_9                             00000006
+RC9                               00000006
+RCD8                              00000000
+RCEN                              00000003
+RCIE                              00000005
+RCIF                              00000005
+RCREG                             0000001A
+RCSTA                             00000018
+RD                                00000000
+RD0                               00000000
+RD1                               00000001
+RD2                               00000002
+RD3                               00000003
+RD4                               00000004
+RD5                               00000005
+RD6                               00000006
+RD7                               00000007
+RE0                               00000000
+RE1                               00000001
+RE2                               00000002
+READ_WRITE                        00000002
+RP0                               00000005
+RP1                               00000006
+RSEN                              00000001
+RX9                               00000006
+RX9D                              00000000
+R_NOT_W                           00000002
+R_W                               00000002
+S                                 00000003
+SEN                               00000000
+SMP                               00000007
+SPBRG                             00000099
+SPEN                              00000007
+SREN                              00000005
+SSAVE                             00000000
+SSPADD                            00000093
+SSPBUF                            00000013
+SSPCON                            00000014
+gpasm-1.4.0 #1106 (Oct  6 2014) obj\Debug\Bli   10-29-2019  15:21:38        PAGE 43
+
+
+SYMBOL TABLE
+  LABEL                             VALUE 
+
+SSPCON2                           00000091
+SSPEN                             00000005
+SSPIE                             00000003
+SSPIF                             00000003
+SSPM0                             00000000
+SSPM1                             00000001
+SSPM2                             00000002
+SSPM3                             00000003
+SSPOV                             00000006
+SSPSTAT                           00000094
+STATUS                            00000003
+STK00                             00000000
+STK01                             00000000
+STK02                             00000000
+STK03                             00000000
+STK04                             00000000
+STK05                             00000000
+STK06                             00000000
+STK07                             00000000
+STK08                             00000000
+STK09                             00000000
+STK10                             00000000
+STK11                             00000000
+STK12                             00000000
+SYNC                              00000004
+T0CS                              00000005
+T0IE                              00000005
+T0IF                              00000002
+T0SE                              00000004
+T1CKPS0                           00000004
+T1CKPS1                           00000005
+T1CON                             00000010
+T1INSYNC                          00000002
+T1OSCEN                           00000003
+T1SYNC                            00000002
+T2CKPS0                           00000000
+T2CKPS1                           00000001
+T2CON                             00000012
+TMR0                              00000001
+TMR0IE                            00000005
+TMR0IF                            00000002
+TMR1                              0000000E
+TMR1CS                            00000001
+TMR1H                             0000000F
+TMR1IE                            00000000
+TMR1IF                            00000000
+TMR1L                             0000000E
+TMR1ON                            00000000
+TMR2                              00000011
+TMR2IE                            00000001
+TMR2IF                            00000001
+TMR2ON                            00000002
+TOUTPS0                           00000003
+gpasm-1.4.0 #1106 (Oct  6 2014) obj\Debug\Bli   10-29-2019  15:21:38        PAGE 44
+
+
+SYMBOL TABLE
+  LABEL                             VALUE 
+
+TOUTPS1                           00000004
+TOUTPS2                           00000005
+TOUTPS3                           00000006
+TRISA                             00000085
+TRISA0                            00000000
+TRISA1                            00000001
+TRISA2                            00000002
+TRISA3                            00000003
+TRISA4                            00000004
+TRISA5                            00000005
+TRISB                             00000086
+TRISB0                            00000000
+TRISB1                            00000001
+TRISB2                            00000002
+TRISB3                            00000003
+TRISB4                            00000004
+TRISB5                            00000005
+TRISB6                            00000006
+TRISB7                            00000007
+TRISC                             00000087
+TRISC0                            00000000
+TRISC1                            00000001
+TRISC2                            00000002
+TRISC3                            00000003
+TRISC4                            00000004
+TRISC5                            00000005
+TRISC6                            00000006
+TRISC7                            00000007
+TRISD                             00000088
+TRISD0                            00000000
+TRISD1                            00000001
+TRISD2                            00000002
+TRISD3                            00000003
+TRISD4                            00000004
+TRISD5                            00000005
+TRISD6                            00000006
+TRISD7                            00000007
+TRISE                             00000089
+TRISE0                            00000000
+TRISE1                            00000001
+TRISE2                            00000002
+TRMT                              00000001
+TX8_9                             00000006
+TX9                               00000006
+TX9D                              00000000
+TXD8                              00000000
+TXEN                              00000005
+TXIE                              00000004
+TXIF                              00000004
+TXREG                             00000019
+TXSTA                             00000098
+UA                                00000001
+W                                 00000000
+gpasm-1.4.0 #1106 (Oct  6 2014) obj\Debug\Bli   10-29-2019  15:21:38        PAGE 45
+
+
+SYMBOL TABLE
+  LABEL                             VALUE 
+
+WCOL                              00000007
+WR                                00000001
+WREN                              00000002
+WRERR                             00000003
+WSAVE                             00000000
+Z                                 00000002
+_00112_DS_                        0000011F
+_00115_DS_                        00000122
+_00118_DS_                        0000018C
+_00122_DS_                        00000163
+_00126_DS_                        0000014A
+_00128_DS_                        00000190
+_00158_DS_                        00000152
+_00159_DS_                        0000015C
+_00160_DS_                        0000016B
+_00161_DS_                        00000175
+_00167_DS_                        0000004A
+_00170_DS_                        00000090
+_00173_DS_                        000000D6
+_00179_DS_                        000000A6
+_00183_DS_                        00000061
+_00188_DS_                        000000EB
+_00220_DS_                        00000011
+_ADCON0                           00000000
+_ADCON0bits                       00000000
+_ADCON1                           00000000
+_ADCON1bits                       00000000
+_ADC_Get                          00000000
+_ADC_Init                         00000000
+_ADC_Update                       00000000
+_ADRESH                           00000000
+_ADRESL                           00000000
+_BODEN_OFF                        00003FBF
+_BODEN_ON                         00003FFF
+_BOREN_OFF                        00003FBF
+_BOREN_ON                         00003FFF
+_Blinker_Light_Init               00000191
+_Blinker_Light_Update             000000EC
+_Blinker_Light_Update_current_Time_1_16  00000009
+_CCP1CON                          00000000
+_CCP1CONbits                      00000000
+_CCP2CON                          00000000
+_CCP2CONbits                      00000000
+_CCPR1                            00000000
+_CCPR1H                           00000000
+_CCPR1L                           00000000
+_CCPR2                            00000000
+_CCPR2H                           00000000
+_CCPR2L                           00000000
+_CMCON                            00000000
+_CMCONbits                        00000000
+_CONFIG                           00002007
+_CPD_OFF                          00003FFF
+gpasm-1.4.0 #1106 (Oct  6 2014) obj\Debug\Bli   10-29-2019  15:21:38        PAGE 46
+
+
+SYMBOL TABLE
+  LABEL                             VALUE 
+
+_CPD_ON                           00003EFF
+_CP_ALL                           00001FFF
+_CP_OFF                           00003FFF
+_CP_ON                            00001FFF
+_CVRCON                           00000000
+_CVRCONbits                       00000000
+_DEBUG_OFF                        00003FFF
+_DEBUG_ON                         000037FF
+_DEVID1                           00002006
+_EEADR                            00000000
+_EEADRH                           00000000
+_EECON1                           00000000
+_EECON1bits                       00000000
+_EECON2                           00000000
+_EEDATA                           00000000
+_EEDATH                           00000000
+_FOSC_EXTRC                       00003FFF
+_FOSC_HS                          00003FFE
+_FOSC_LP                          00003FFC
+_FOSC_XT                          00003FFD
+_FSR                              00000000
+_HS_OSC                           00003FFE
+_IDLOC0                           00002000
+_IDLOC1                           00002001
+_IDLOC2                           00002002
+_IDLOC3                           00002003
+_INDF                             00000000
+_INTCON                           00000000
+_INTCONbits                       00000000
+_LP_OSC                           00003FFC
+_LVP_OFF                          00003F7F
+_LVP_ON                           00003FFF
+_Light_Toggle                     00000000
+_Light_Toggle_toggling_Time_1_27  0000000A
+_OPTION_REG                       00000000
+_OPTION_REGbits                   00000000
+_OS_Init                          00000000
+_OS_Start                         00000000
+_OS_Update                        00000000
+_PCL                              00000000
+_PCLATH                           00000000
+_PCON                             00000000
+_PCONbits                         00000000
+_PIE1                             00000000
+_PIE1bits                         00000000
+_PIE2                             00000000
+_PIE2bits                         00000000
+_PIR1                             00000000
+_PIR1bits                         00000000
+_PIR2                             00000000
+_PIR2bits                         00000000
+_PORTA                            00000000
+_PORTAbits                        00000000
+gpasm-1.4.0 #1106 (Oct  6 2014) obj\Debug\Bli   10-29-2019  15:21:38        PAGE 47
+
+
+SYMBOL TABLE
+  LABEL                             VALUE 
+
+_PORTB                            00000000
+_PORTBbits                        00000000
+_PORTC                            00000000
+_PORTCbits                        00000000
+_PORTD                            00000000
+_PORTDbits                        00000000
+_PORTE                            00000000
+_PORTEbits                        00000000
+_PR2                              00000000
+_PWRTE_OFF                        00003FFF
+_PWRTE_ON                         00003FF7
+_RCREG                            00000000
+_RCSTA                            00000000
+_RCSTAbits                        00000000
+_RC_OSC                           00003FFF
+_SPBRG                            00000000
+_SSPADD                           00000000
+_SSPBUF                           00000000
+_SSPCON                           00000000
+_SSPCON2                          00000000
+_SSPCON2bits                      00000000
+_SSPCONbits                       00000000
+_SSPSTAT                          00000000
+_SSPSTATbits                      00000000
+_STATUS                           00000000
+_STATUSbits                       00000000
+_SW_Init                          00000000
+_SW_Update                        00000000
+_T1CON                            00000000
+_T1CONbits                        00000000
+_T2CON                            00000000
+_T2CONbits                        00000000
+_TMR0                             00000000
+_TMR1                             00000000
+_TMR1H                            00000000
+_TMR1L                            00000000
+_TMR2                             00000000
+_TRISA                            00000000
+_TRISAbits                        00000000
+_TRISB                            00000000
+_TRISBbits                        00000000
+_TRISC                            00000000
+_TRISCbits                        00000000
+_TRISD                            00000000
+_TRISDbits                        00000000
+_TRISE                            00000000
+_TRISEbits                        00000000
+_TXREG                            00000000
+_TXSTA                            00000000
+_TXSTAbits                        00000000
+_WDTE_OFF                         00003FFB
+_WDTE_ON                          00003FFF
+_WDT_OFF                          00003FFB
+gpasm-1.4.0 #1106 (Oct  6 2014) obj\Debug\Bli   10-29-2019  15:21:38        PAGE 48
+
+
+SYMBOL TABLE
+  LABEL                             VALUE 
+
+_WDT_ON                           00003FFF
+_WRT_1FOURTH                      00003BFF
+_WRT_256                          00003DFF
+_WRT_HALF                         000039FF
+_WRT_OFF                          00003FFF
+_XT_OSC                           00003FFD
+__16F877A                         00000001
+__CODE_END                        00001FFF
+__CODE_START                      00000000
+__COMMON_RAM_END                  0000007F
+__COMMON_RAM_START                00000070
+__EEPROM_END                      000021FF
+__EEPROM_START                    00002100
+__VECTOR_INT                      00000004
+__VECTOR_RESET                    00000000
+_code_BlinkerLight_00F8           000000F8
+_code_BlinkerLight_0109           00000109
+_code_BlinkerLight_012C           0000012C
+_code_BlinkerLight_013D           0000013D
+_code_BlinkerLight_01A8           000001A8
+_code_BlinkerLight_01AD           000001AD
+_current_SW_State                 00000000
+_digital_Reading                  00000000
+_get_SW_State                     00000000
+_sw_output                        00000000
+_sw_previous                      00000000
+r0x1008                           00000004
+r0x1009                           00000005
+r0x100A                           00000006
+r0x100B                           00000007
+r0x100C                           00000008
+r0x100D                           00000002
+r0x100E                           00000001
+r0x100F                           00000003
+r0x1010                           00000000
+
+Errors   :     0
+Warnings :     0 reported,     0 suppressed
+Messages :     0 reported,     0 suppressed
+
+
